@@ -1,0 +1,59 @@
+@model ProyectoFinalEmbutidosElTio.Models.Pedido
+
+@{
+    ViewData["Title"] = "Detalle del Pedido";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="bg-orange-600 px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-white">Pedido #@Model.IdPedido</h1>
+            <span class="bg-white text-orange-600 px-3 py-1 rounded-full text-sm font-semibold">@Model.EstadoPedido?.NombreEstado</span>
+        </div>
+
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Información del Cliente</h3>
+                    <p class="text-gray-600"><span class="font-medium">Nombre:</span> @Model.Usuario?.Nombre @Model.Usuario?.ApPaterno @Model.Usuario?.ApMaterno</p>
+                    <p class="text-gray-600"><span class="font-medium">Email:</span> @Model.Usuario?.Correo</p>
+                    <p class="text-gray-600"><span class="font-medium">Teléfono:</span> @Model.Usuario?.Celular</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Detalles del Pedido</h3>
+                    <p class="text-gray-600"><span class="font-medium">Fecha:</span> @Model.FechaPedido?.ToString("dd/MM/yyyy HH:mm")</p>
+                    <p class="text-gray-600"><span class="font-medium">Total:</span> <span class="text-xl font-bold text-orange-600">$@Model.Total</span></p>
+                </div>
+            </div>
+
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Productos</h3>
+            <div class="bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Unit.</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach (var detalle in Model.DetallesPedido)
+                        {
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@detalle.Producto?.Nombre</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$@detalle.PrecioUnitario</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@detalle.Cantidad</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">$@(detalle.Cantidad * detalle.PrecioUnitario)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-8 flex justify-end">
+                <a asp-action="Index" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition">Volver al Historial</a>
+            </div>
+        </div>
+    </div>
+</div>

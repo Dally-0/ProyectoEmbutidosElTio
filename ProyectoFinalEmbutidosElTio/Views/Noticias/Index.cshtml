@@ -1,0 +1,145 @@
+@model IEnumerable<ProyectoFinalEmbutidosElTio.Models.Noticia>
+
+@{
+    ViewData["Title"] = "Noticias";
+}
+
+<div class="bg-gray-50 min-h-screen py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header -->
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Novedades del Tío</h1>
+            <p class="text-xl text-gray-600">Mantente al día con nuestros lanzamientos, recetas y eventos.</p>
+        </div>
+
+        <!-- News Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            @foreach (var item in Model)
+            {
+                <article class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full border border-gray-100">
+                    <!-- Image Placeholder (Randomized nature URL for visual appeal logic) -->
+                    <div class="h-48 bg-gray-200 overflow-hidden relative group">
+                         <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Noticia" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                         <div class="absolute top-4 left-4 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                             Novedad
+                         </div>
+                    </div>
+                    
+                    <div class="p-8 flex-grow flex flex-col">
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <span class="flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                @item.FechaPublicacion?.ToString("dd MMM yyyy")
+                            </span>
+                        </div>
+
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4 hover:text-orange-600 transition-colors cursor-pointer">
+                            @item.Titulo
+                        </h2>
+                        
+                        <p class="text-gray-600 mb-6 line-clamp-3 leading-relaxed flex-grow">
+                            @item.TextoNoticia
+                        </p>
+
+                        <div class="pt-6 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-sm font-medium text-gray-900 flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mr-2 text-gray-500">A</div>
+                                Admin
+                            </span>
+                            <button 
+                                onclick="openModal(this)"
+                                data-title="@item.Titulo"
+                                data-author="@(item.UsuarioAdmin != null ? $"{item.UsuarioAdmin.Nombre} {item.UsuarioAdmin.ApPaterno}" : "Administración")"
+                                data-date="@item.FechaPublicacion?.ToString("dd MMM yyyy")"
+                                data-content="@item.TextoNoticia"
+                                class="text-orange-600 font-semibold text-sm hover:text-orange-700 flex items-center gap-1 group-hover:gap-2 transition-all">
+                                Leer más <span>&rarr;</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+        
+        @if (!Model.Any())
+        {
+            <div class="text-center py-20 bg-white rounded-xl shadow-sm">
+                <div class="text-6xl mb-4">📰</div>
+                <h3 class="text-2xl font-bold text-gray-400">No hay noticias publicadas aún</h3>
+                <p class="text-gray-500 mt-2">Vuelve pronto para ver nuestras actualizaciones.</p>
+            </div>
+        }
+
+    </div>
+
+    <!-- News Modal -->
+    <div id="newsModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeModal()"></div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <!-- Modal Panel -->
+            <div class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 class="text-2xl leading-6 font-bold text-gray-900" id="modalTitle">
+                                Título de la Noticia
+                            </h3>
+                            <div class="mt-2 flex items-center text-sm text-gray-500 mb-4">
+                                <span class="flex items-center mr-4">
+                                    <svg class="w-4 h-4 mr-1 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                    <span id="modalAuthor">Autor</span>
+                                </span>
+                                <span class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <span id="modalDate">Fecha</span>
+                                </span>
+                            </div>
+                            <div class="mt-4">
+                                <p class="text-gray-600 whitespace-pre-line leading-relaxed" id="modalContent">
+                                    Contenido...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-orange-600 text-base font-medium text-white hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 sm:ml-3 sm:w-auto sm:text-sm" onclick="closeModal()">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(button) {
+            const title = button.getAttribute('data-title');
+            const author = button.getAttribute('data-author');
+            const date = button.getAttribute('data-date');
+            const content = button.getAttribute('data-content');
+
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalAuthor').textContent = author;
+            document.getElementById('modalDate').textContent = date;
+            document.getElementById('modalContent').textContent = content;
+
+            document.getElementById('newsModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('newsModal').classList.add('hidden');
+        }
+
+        // Close on escape key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+    </script>
+</div>

@@ -1,0 +1,109 @@
+@model ProyectoFinalEmbutidosElTio.Models.ViewModels.CartViewModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="bg-gray-50 min-h-screen py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-extrabold text-gray-900">Finalizar Compra</h1>
+            <p class="text-gray-500 mt-2">Completa tu pedido de forma segura</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- Payment Section -->
+            <div class="space-y-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                    <h2 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-sm">1</span>
+                        Método de Pago
+                    </h2>
+
+                    <form id="checkoutForm" asp-action="ConfirmOrder" method="post">
+                        <div class="space-y-4">
+                            <!-- QR Payment Option -->
+                            <label class="relative flex p-5 border border-gray-200 rounded-xl cursor-pointer focus:outline-none hover:bg-orange-50 hover:border-orange-200 transition-all group">
+                                <input type="radio" name="paymentMethod" value="QR" class="h-4 w-4 mt-0.5 border-gray-300 text-orange-600 focus:ring-orange-500" checked>
+                                <div class="ml-3 flex flex-col">
+                                    <span class="block text-sm font-medium text-gray-900 group-hover:text-orange-700">QR Simple / Transferencia</span>
+                                    <span class="block text-sm text-gray-500">Escanea y paga al instante desde tu banca móvil.</span>
+                                </div>
+                                <div class="ml-auto flex items-center text-gray-400">
+                                    📱
+                                </div>
+                            </label>
+
+                            <!-- Cash Option -->
+                            <label class="relative flex p-5 border border-gray-200 rounded-xl cursor-pointer focus:outline-none hover:bg-orange-50 hover:border-orange-200 transition-all group">
+                                <input type="radio" name="paymentMethod" value="Cash" class="h-4 w-4 mt-0.5 border-gray-300 text-orange-600 focus:ring-orange-500">
+                                <div class="ml-3 flex flex-col">
+                                    <span class="block text-sm font-medium text-gray-900 group-hover:text-orange-700">Pago Contra Entrega</span>
+                                    <span class="block text-sm text-gray-500">Paga en efectivo al recibir tu pedido.</span>
+                                </div>
+                                <div class="ml-auto flex items-center text-gray-400">
+                                    💵
+                                </div>
+                            </label>
+
+                             <!-- Disabled Option Example -->
+                            <label class="relative flex p-5 border border-gray-100 rounded-xl bg-gray-50 opacity-60 cursor-not-allowed">
+                                <input type="radio" name="paymentMethod" value="Paypal" class="h-4 w-4 mt-0.5 border-gray-300 text-gray-400" disabled>
+                                <div class="ml-3 flex flex-col">
+                                    <span class="block text-sm font-medium text-gray-500">Tarjeta / PayPal</span>
+                                    <span class="block text-sm text-gray-400">Próximamente disponible.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Summary Section -->
+            <div>
+                 <div class="bg-gray-900 rounded-2xl shadow-xl border border-gray-800 p-8 text-white">
+                    <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                         <span class="w-8 h-8 rounded-full bg-orange-600 text-white flex items-center justify-center text-sm">2</span>
+                         Resumen
+                    </h2>
+
+                    <div class="flow-root mb-8">
+                        <ul role="list" class="-my-4 divide-y divide-gray-700">
+                            @foreach (var item in Model.Items)
+                            {
+                                <li class="py-4 flex justify-between gap-4">
+                                    <div>
+                                        <h3 class="text-sm font-medium text-white">@item.Producto.Nombre</h3>
+                                        <p class="text-sm text-gray-400">Cant: @item.Quantity</p>
+                                    </div>
+                                    <p class="text-sm font-medium text-orange-400">@item.Subtotal.ToString("C")</p>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="border-t border-gray-700 pt-6 space-y-4">
+                         <div class="flex items-center justify-between text-gray-300">
+                            <span>Subtotal</span>
+                            <span>@Model.Total.ToString("C")</span>
+                        </div>
+                        <div class="flex items-center justify-between text-base font-bold text-white">
+                            <span>Total a Pagar</span>
+                            <span class="text-2xl text-orange-500">@Model.Total.ToString("C")</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" form="checkoutForm" class="w-full mt-8 bg-orange-600 border border-transparent rounded-xl shadow-lg py-4 px-4 font-bold text-white hover:bg-orange-700 hover:shadow-orange-500/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-orange-500 transition-all">
+                        Confirmar Pedido
+                    </button>
+                    
+                    <p class="mt-4 text-center text-xs text-gray-500">
+                        Al confirmar, aceptas nuestros términos de servicio.
+                    </p>
+                 </div>
+            </div>
+
+        </div>
+    </div>
+</div>

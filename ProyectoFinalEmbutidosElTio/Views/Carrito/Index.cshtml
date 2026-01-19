@@ -1,0 +1,112 @@
+@model ProyectoFinalEmbutidosElTio.Models.ViewModels.CartViewModel
+@{
+    ViewData["Title"] = "Tu Carrito";
+}
+
+<div class="bg-gray-50 min-h-screen py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-8 flex items-center gap-3">
+            <span class="bg-orange-100 text-orange-600 p-2 rounded-lg">🛒</span> 
+            Tu Carrito de Compras
+        </h1>
+
+        @if (!Model.Items.Any())
+        {
+            <div class="bg-white rounded-2xl shadow-sm p-12 text-center border border-gray-100">
+                <div class="mx-auto w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center text-4xl mb-6">☹️</div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Tu carrito está vacío</h2>
+                <p class="text-gray-500 mb-8">Parece que aún no has añadido nuestros deliciosos productos.</p>
+                <a asp-controller="Tienda" asp-action="Index" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-orange-600 hover:bg-orange-700 transition-colors">
+                    Ir a la Tienda
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="lg:grid lg:grid-cols-12 lg:gap-12">
+                <!-- Cart Items -->
+                <div class="lg:col-span-8">
+                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
+                        <ul role="list" class="divide-y divide-gray-100">
+                            @foreach (var item in Model.Items)
+                            {
+                                <li class="p-6 flex flex-col sm:flex-row sm:items-center gap-6 hover:bg-gray-50 transition-colors">
+                                    <div class="flex-shrink-0">
+                                        <img src="@(string.IsNullOrEmpty(item.Producto.ImagenUrl) ? "https://via.placeholder.com/100" : item.Producto.ImagenUrl)" 
+                                             class="w-24 h-24 rounded-lg object-cover shadow-sm" alt="@item.Producto.Nombre">
+                                    </div>
+                                    
+                                    <div class="flex-1 flex flex-col sm:flex-row justify-between">
+                                        <div>
+                                            <h3 class="text-lg font-bold text-gray-900">
+                                                <a href="#" class="hover:text-orange-600">@item.Producto.Nombre</a>
+                                            </h3>
+                                            <p class="mt-1 text-sm text-gray-500">Precio unitario: @item.Producto.Precio.ToString("C")</p>
+                                        </div>
+
+                                        <div class="mt-4 sm:mt-0 flex items-center justify-between sm:justify-end gap-6">
+                                            <div class="flex items-center border border-gray-300 rounded-lg bg-white">
+                                                <span class="px-3 py-1 text-gray-600 font-medium select-none">x @item.Quantity</span>
+                                            </div>
+                                            
+                                            <div class="text-right">
+                                                <p class="text-lg font-bold text-orange-600">@item.Subtotal.ToString("C")</p>
+                                            </div>
+
+                                            <a asp-action="RemoveFromCart" asp-route-productId="@item.Producto.IdProducto" 
+                                               class="text-red-400 hover:text-red-600 p-2 hover:bg-red-50 rounded-full transition-colors" title="Eliminar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-6">
+                         <a asp-controller="Tienda" asp-action="Index" class="text-orange-600 font-medium hover:text-orange-700 flex items-center gap-2">
+                             &larr; Continuar Comprando
+                         </a>
+                    </div>
+                </div>
+
+                <!-- Summary Sidebar -->
+                <div class="lg:col-span-4 mt-8 lg:mt-0">
+                    <div class="bg-white rounded-2xl shadow-lg border border-orange-100 p-8 sticky top-24">
+                        <h2 class="text-lg font-bold text-gray-900 mb-6">Resumen del Pedido</h2>
+                        
+                        <div class="flow-root">
+                            <dl class="-my-4 divide-y divide-gray-100">
+                                <div class="py-4 flex items-center justify-between">
+                                    <dt class="text-gray-600">Subtotal</dt>
+                                    <dd class="font-medium text-gray-900">@Model.Total.ToString("C")</dd>
+                                </div>
+                                <div class="py-4 flex items-center justify-between">
+                                    <dt class="text-gray-600">Envío</dt>
+                                    <dd class="font-medium text-green-600">Gratis</dd>
+                                </div>
+                                <div class="py-4 flex items-center justify-between border-t-2 border-gray-100">
+                                    <dt class="text-xl font-bold text-gray-900">Total</dt>
+                                    <dd class="text-2xl font-bold text-orange-600">@Model.Total.ToString("C")</dd>
+                                </div>
+                            </dl>
+                        </div>
+
+                        <div class="mt-8">
+                            <a asp-action="Checkout" class="w-full bg-orange-600 border border-transparent rounded-xl shadow-sm py-4 px-4 flex items-center justify-center text-base font-bold text-white hover:bg-orange-700 hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+                                Proceder al Pago
+                            </a>
+                            <div class="mt-4 flex justify-center gap-2 text-gray-400">
+                                <!-- Secure Icons -->
+                                <span class="sr-only">Pagos Seguros</span>
+                                <svg class="h-6 w-auto"  viewBox="0 0 24 24" fill="currentColor"> <path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3z"/></svg>
+                                <span class="text-xs">Pago 100% Seguro</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

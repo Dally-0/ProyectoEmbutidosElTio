@@ -1,0 +1,87 @@
+@model IEnumerable<ProyectoFinalEmbutidosElTio.Models.Producto>
+
+@{
+    ViewData["Title"] = "Gestión de Productos";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Productos</h1>
+        <a asp-action="Create" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition">
+            + Nuevo Producto
+        </a>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <table class="min-w-full leading-normal">
+            <thead>
+                <tr>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Producto
+                    </th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Categoría
+                    </th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Precio
+                    </th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Stock
+                    </th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Estado
+                    </th>
+                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                <tr>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <div class="flex items-center">
+                            @if (!string.IsNullOrEmpty(item.ImagenUrl))
+                            {
+                                <div class="flex-shrink-0 w-10 h-10">
+                                    <img class="w-full h-full rounded-full object-cover" src="@item.ImagenUrl" alt="" />
+                                </div>
+                            }
+                            <div class="ml-3">
+                                <p class="text-gray-900 whitespace-no-wrap">
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">@Html.DisplayFor(modelItem => item.Categoria.NombreTipo)</p>
+                    </td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">$@Html.DisplayFor(modelItem => item.Precio)</p>
+                    </td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">@Html.DisplayFor(modelItem => item.Stock)</p>
+                    </td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <span class="relative inline-block px-3 py-1 font-semibold leading-tight @(item.Activo ? "text-green-900" : "text-red-900")">
+                            <span aria-hidden="true" class="absolute inset-0 @(item.Activo ? "bg-green-200" : "bg-red-200") opacity-50 rounded-full"></span>
+                            <span class="relative">@(item.Activo ? "Activo" : "Inactivo")</span>
+                        </span>
+                    </td>
+                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <div class="flex gap-2">
+                             <a asp-action="Edit" asp-route-id="@item.IdProducto" class="text-blue-600 hover:text-blue-900">Editar</a>
+                             <form asp-action="ToggleStatus" asp-route-id="@item.IdProducto" method="post" class="inline">
+                                 <button type="submit" class="text-orange-600 hover:text-orange-900 bg-transparent border-none cursor-pointer">
+                                     @(item.Activo ? "Deshabilitar" : "Habilitar")
+                                 </button>
+                             </form>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

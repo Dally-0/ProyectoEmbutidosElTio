@@ -1,0 +1,73 @@
+@model ProyectoFinalEmbutidosElTio.Models.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg border-t-4 border-orange-500">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Crear una cuenta
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                ¿Ya tienes cuenta? <a asp-action="Login" class="font-medium text-orange-600 hover:text-orange-500">Inicia sesión aquí</a>
+            </p>
+        </div>
+        <form class="mt-8 space-y-4" asp-action="Register">
+            <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm"></div>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                   <label asp-for="Nombre" class="sr-only">Nombre</label>
+                   <input asp-for="Nombre" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Nombre" />
+                   <span asp-validation-for="Nombre" class="text-red-500 text-xs"></span>
+                </div>
+                <div>
+                   <label asp-for="ApPaterno" class="sr-only">Apellido Paterno</label>
+                   <input asp-for="ApPaterno" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Ap. Paterno" />
+                   <span asp-validation-for="ApPaterno" class="text-red-500 text-xs"></span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                 <div>
+                   <label asp-for="ApMaterno" class="sr-only">Apellido Materno</label>
+                   <input asp-for="ApMaterno" class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Ap. Materno" />
+                </div>
+                <div>
+                   <label asp-for="Celular" class="sr-only">Celular</label>
+                   <input asp-for="Celular" class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Celular" />
+                </div>
+            </div>
+
+            <div>
+                <label asp-for="Correo" class="sr-only">Correo Electrónico</label>
+                <input asp-for="Correo" type="email" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Correo Electrónico" />
+                <span asp-validation-for="Correo" class="text-red-500 text-xs"></span>
+            </div>
+
+            <div>
+                <label asp-for="Password" class="sr-only">Contraseña</label>
+                <input asp-for="Password" type="password" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Contraseña" />
+                <span asp-validation-for="Password" class="text-red-500 text-xs"></span>
+            </div>
+
+            <div>
+                <label asp-for="ConfirmPassword" class="sr-only">Confirmar Contraseña</label>
+                <input asp-for="ConfirmPassword" type="password" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" placeholder="Confirmar Contraseña" />
+                <span asp-validation-for="ConfirmPassword" class="text-red-500 text-xs"></span>
+            </div>
+
+            <div>
+                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition duration-150 ease-in-out">
+                    Registrarse
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

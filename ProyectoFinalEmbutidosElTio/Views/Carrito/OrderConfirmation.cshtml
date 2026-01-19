@@ -1,0 +1,37 @@
+@model int
+@{
+    ViewData["Title"] = "¡Pedido Confirmado!";
+}
+
+<div class="bg-white min-h-screen flex items-center justify-center">
+    <div class="max-w-xl w-full p-8 text-center animate-fade-in-up">
+        
+        <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm">
+            <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-4">¡Muchas Gracias!</h1>
+        <p class="text-xl text-gray-600 mb-8">
+            Tu pedido ha sido recibido correctamente.
+        </p>
+
+        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100 mb-8 max-w-sm mx-auto">
+            <p class="text-sm text-gray-500 uppercase tracking-wide font-semibold mb-2">Número de Pedido</p>
+            <p class="text-4xl font-bold text-gray-900 tracking-wider">#@Model</p>
+        </div>
+
+        <p class="text-gray-500 mb-10">
+            Hemos enviado un correo de confirmación con los detalles.<br>
+            Nos pondremos en contacto contigo pronto para la entrega.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a asp-controller="Tienda" asp-action="Index" class="px-8 py-3 bg-orange-600 text-white font-bold rounded-lg shadow-md hover:bg-orange-700 transition">
+                Seguir Comprando
+            </a>
+            <a asp-controller="Home" asp-action="Index" class="px-8 py-3 bg-white border border-gray-300 text-gray-700 font-bold rounded-lg hover:bg-gray-50 transition">
+                Volver al Inicio
+            </a>
+        </div>
+    </div>
+</div>

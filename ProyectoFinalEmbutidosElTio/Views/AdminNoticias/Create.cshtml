@@ -1,0 +1,38 @@
+@model ProyectoFinalEmbutidosElTio.Models.Noticia
+
+@{
+    ViewData["Title"] = "Crear Noticia";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Crear Nueva Noticia</h1>
+
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4 text-sm"></div>
+            
+            <div class="mb-4">
+                <label asp-for="Titulo" class="block text-gray-700 text-sm font-bold mb-2">Título</label>
+                <input asp-for="Titulo" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Ingrese el título de la noticia" />
+                <span asp-validation-for="Titulo" class="text-red-500 text-xs italic"></span>
+            </div>
+
+            <div class="mb-6">
+                <label asp-for="TextoNoticia" class="block text-gray-700 text-sm font-bold mb-2">Contenido</label>
+                <textarea asp-for="TextoNoticia" rows="8" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Escriba el contenido de la noticia aquí..."></textarea>
+                <span asp-validation-for="TextoNoticia" class="text-red-500 text-xs italic"></span>
+            </div>
+
+            <div class="flex items-center justify-end gap-4">
+                <a asp-action="Index" class="text-gray-500 hover:text-gray-700 text-sm font-bold">Cancelar</a>
+                <button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition">
+                    Publicar Noticia
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

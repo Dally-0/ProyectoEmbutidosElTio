@@ -1,0 +1,82 @@
+@model ProyectoFinalEmbutidosElTio.Models.Producto
+
+@{
+    ViewData["Title"] = "Editar Producto";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md border-t-4 border-orange-500">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Editar Producto</h1>
+        
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+            <input type="hidden" asp-for="IdProducto" />
+            <input type="hidden" asp-for="FechaIngreso" />
+            <!-- Keep existing active status if not shown, but we included it below -->
+            
+            <div class="mb-4">
+                <label asp-for="Nombre" class="block text-gray-700 text-sm font-bold mb-2">Nombre</label>
+                <input asp-for="Nombre" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500" />
+                <span asp-validation-for="Nombre" class="text-red-500 text-xs italic"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Descripcion" class="block text-gray-700 text-sm font-bold mb-2">Descripción</label>
+                <textarea asp-for="Descripcion" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500" rows="3"></textarea>
+                <span asp-validation-for="Descripcion" class="text-red-500 text-xs italic"></span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label asp-for="IdCategoria" class="block text-gray-700 text-sm font-bold mb-2">Categoría</label>
+                    <select asp-for="IdCategoria" class ="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500" asp-items="ViewBag.IdCategoria"></select>
+                </div>
+                <div>
+                    <label asp-for="Precio" class="block text-gray-700 text-sm font-bold mb-2">Precio</label>
+                    <input asp-for="Precio" type="number" step="0.01" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500" />
+                    <span asp-validation-for="Precio" class="text-red-500 text-xs italic"></span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label asp-for="Stock" class="block text-gray-700 text-sm font-bold mb-2">Stock</label>
+                    <input asp-for="Stock" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500" />
+                    <span asp-validation-for="Stock" class="text-red-500 text-xs italic"></span>
+                </div>
+                <div>
+                    <label asp-for="StockMinimo" class="block text-gray-700 text-sm font-bold mb-2">Stock Min.</label>
+                    <input asp-for="StockMinimo" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500" />
+                    <span asp-validation-for="StockMinimo" class="text-red-500 text-xs italic"></span>
+                </div>
+                <div>
+                    <label asp-for="FechaVencimiento" class="block text-gray-700 text-sm font-bold mb-2">Vencimiento</label>
+                    <input asp-for="FechaVencimiento" type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500" />
+                    <span asp-validation-for="FechaVencimiento" class="text-red-500 text-xs italic"></span>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label asp-for="ImagenUrl" class="block text-gray-700 text-sm font-bold mb-2">URL Imagen</label>
+                <input asp-for="ImagenUrl" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-orange-500" />
+                <span asp-validation-for="ImagenUrl" class="text-red-500 text-xs italic"></span>
+            </div>
+            
+            <div class="mb-4">
+                 <label class="inline-flex items-center">
+                    <input asp-for="Activo" class="form-checkbox h-5 w-5 text-orange-600" />
+                    <span class="ml-2 text-gray-700">Producto Activo</span>
+                </label>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <a asp-action="Index" class="text-gray-600 hover:text-gray-800 font-bold">Cancelar</a>
+                <input type="submit" value="Guardar Cambios" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

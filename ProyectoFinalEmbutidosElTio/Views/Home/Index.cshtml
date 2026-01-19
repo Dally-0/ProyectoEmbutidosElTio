@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<!-- Hero Section with Background Image -->
+<div class="relative bg-gray-900 overflow-hidden -mt-10">
+    <!-- Overlay & Image -->
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Carne Premium" class="w-full h-full object-cover opacity-50">
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-48 flex flex-col justify-center h-full">
+        <span class="text-orange-500 font-bold uppercase tracking-widest mb-4 animate-fade-in-down">Calidad Premium</span>
+        <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight max-w-3xl animate-fade-in-down animation-delay-200">
+            Sabor Auténtico <br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600">De Carne 100% Real</span>
+        </h1>
+        <p class="text-xl text-gray-200 mb-8 max-w-2xl animate-fade-in-up animation-delay-400">
+            Disfruta de embutidos artesanales elaborados con las vacas más finas y selectas. Llevamos el verdadero sabor del campo a tu mesa con una calidad inigualable.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-400">
+            <a asp-controller="Tienda" asp-action="Index" class="px-8 py-4 bg-orange-600 text-white font-bold rounded-lg shadow-lg hover:bg-orange-700 hover:scale-105 transition-all duration-300 text-center">
+                Ver Tienda
+            </a>
+            <a asp-controller="Home" asp-action="About" class="px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-bold rounded-lg hover:bg-white/20 transition-all duration-300 text-center">
+                Conócenos
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Features / Quality Section -->
+<div class="py-24 bg-white relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Por Qué Elegir El Tío</h2>
+            <div class="w-24 h-1 bg-orange-500 mx-auto rounded-full"></div>
+            <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Nuestro proceso de selección es riguroso para asegurar que cada bocado sea una experiencia memorable.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <!-- Feature 1 -->
+            <div class="bg-orange-50 rounded-2xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border border-orange-100 group">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-6 shadow-md group-hover:scale-110 transition-transform text-orange-600">
+                    🥩
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Nuestras Carnes</h3>
+                <p class="text-gray-600">
+                    Son de gran valor, traídas de las vacas más finas seleccionadas en pastizales premium. Garantizamos frescura y textura perfecta en cada corte.
+                </p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="bg-orange-50 rounded-2xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border border-orange-100 group">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-6 shadow-md group-hover:scale-110 transition-transform text-orange-600">
+                    🌿
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Ingredientes Naturales</h3>
+                <p class="text-gray-600">
+                    Sin conservantes artificiales dañinos. Utilizamos especias naturales y métodos de curado tradicionales para un sabor honesto y saludable.
+                </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="bg-orange-50 rounded-2xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border border-orange-100 group">
+                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-6 shadow-md group-hover:scale-110 transition-transform text-orange-600">
+                    👨‍🍳
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">Receta Tradicional</h3>
+                <p class="text-gray-600">
+                    Mantenemos viva la receta del "Tío", transmitida por generaciones, asegurando ese toque casero que tanto te gusta.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA / Promo Section -->
+<div class="py-20 relative bg-fixed bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
+    <div class="absolute inset-0 bg-black/70"></div>
+    <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">¿Listo para probar la diferencia?</h2>
+        <p class="text-xl text-gray-300 mb-10">
+            Haz tu pedido hoy y recibe los mejores embutidos directamente en la puerta de tu casa.
+        </p>
+        <a asp-controller="Tienda" asp-action="Index" class="inline-block px-10 py-4 bg-orange-600 text-white font-bold rounded-full hover:bg-orange-500 hover:shadow-lg hover:scale-105 transition-all duration-300">
+            Ir a la Tienda
+        </a>
+    </div>
+</div>

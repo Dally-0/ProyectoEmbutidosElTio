@@ -1,0 +1,103 @@
+@model ProyectoFinalEmbutidosElTio.Models.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div class="min-h-screen flex bg-white">
+    <!-- Left Side - Image & Branding -->
+    <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-gray-900">
+        <img src="https://images.unsplash.com/photo-1551028150-64b9f398f678?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Cooking Meat" class="absolute inset-0 w-full h-full object-cover opacity-60">
+        <div class="relative z-10 flex flex-col justify-between p-12 text-white w-full">
+            <div>
+                <h2 class="text-4xl font-extrabold tracking-tight">Embutidos El Tío</h2>
+                <p class="mt-4 text-xl text-gray-300">La calidad que tu familia merece.</p>
+            </div>
+            <div>
+                <blockquote class="text-lg font-medium italic text-gray-200">
+                    "Desde que probé los productos de El Tío, no compro en otro lugar. Sabor auténtico y frescura garantizada."
+                </blockquote>
+                <p class="mt-4 text-sm font-bold text-orange-400">- Cliente Satisfecho</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side - Login Form -->
+    <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-20 xl:px-24 bg-white">
+        <div class="mx-auto w-full max-w-sm lg:w-96">
+            <div class="text-center lg:text-left">
+                <h2 class="text-3xl font-extrabold text-gray-900">
+                    Bienvenido de nuevo
+                </h2>
+                <p class="mt-2 text-sm text-gray-600">
+                    ¿No tienes cuenta?
+                    <a asp-action="Register" class="font-medium text-orange-600 hover:text-orange-500 transition-colors">
+                        Créala gratis aquí
+                    </a>
+                </p>
+            </div>
+
+            <div class="mt-8">
+                <div class="mt-6">
+                    <form asp-action="Login" method="post" class="space-y-6">
+                        <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm bg-red-50 p-3 rounded-md"></div>
+                        
+                        <div>
+                            <label asp-for="Correo" class="block text-sm font-medium text-gray-700">
+                                Correo Electrónico
+                            </label>
+                            <div class="mt-1">
+                                <input asp-for="Correo" type="email" autocomplete="email" required 
+                                    class="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-all"
+                                    placeholder="admin@eltio.com" />
+                                <span asp-validation-for="Correo" class="text-red-500 text-xs mt-1 block"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label asp-for="Password" class="block text-sm font-medium text-gray-700">
+                                Contraseña
+                            </label>
+                            <div class="mt-1">
+                                <input asp-for="Password" type="password" autocomplete="current-password" required 
+                                    class="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-all"
+                                    placeholder="••••••••" />
+                                <span asp-validation-for="Password" class="text-red-500 text-xs mt-1 block"></span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded cursor-pointer">
+                                <label for="remember-me" class="ml-2 block text-sm text-gray-900 cursor-pointer">
+                                    Recordarme
+                                </label>
+                            </div>
+
+                            <div class="text-sm">
+                                <a href="#" class="font-medium text-orange-600 hover:text-orange-500">
+                                    ¿Olvidaste tu contraseña?
+                                </a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all transform hover:scale-[1.02]">
+                                Iniciar Sesión
+                            </button>
+                        </div>
+                        
+                        <!-- Helper Text for Demo -->
+                        <div class="mt-4 text-xs text-center text-gray-400 bg-gray-50 p-2 rounded">
+                            <p>Demo Admin: <strong>admin@eltio.com</strong> / <strong>Admin123!</strong></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

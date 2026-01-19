@@ -1,0 +1,44 @@
+@using Microsoft.AspNetCore.Identity
+@using ProyectoFinalEmbutidosElTio.Extensions
+@inject ProyectoFinalEmbutidosElTio.Data.AppDbContext Context
+
+<ul class="flex items-center space-x-4">
+@if (User.Identity.IsAuthenticated)
+{
+    var userEmail = User.Identity.Name;
+    /* In a real app we might fetch user name from claims or DB, simplified here */
+    
+    @if (User.IsInRole("Administrador"))
+    {
+         <li>
+            <a class="text-gray-600 hover:text-orange-600 font-medium transition" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+        </li>
+    }
+
+    <li>
+        <span class="text-gray-800">Hola, <span class="font-bold">@User.Identity.Name</span></span>
+    </li>
+    <li>
+        <form class="inline" asp-controller="Account" asp-action="Logout" method="post">
+            <button  type="submit" class="text-gray-600 hover:text-orange-600 font-medium transition bg-transparent border-none cursor-pointer">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li>
+        <a class="text-gray-600 hover:text-orange-600 font-medium transition" asp-controller="Account" asp-action="Register">Registro</a>
+    </li>
+    <li>
+        <a class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition shadow-md" asp-controller="Account" asp-action="Login">Login</a>
+    </li>
+}
+    <li>
+         <a class="relative text-gray-600 hover:text-orange-600 transition" asp-controller="Carrito" asp-action="Index">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+             <!-- Badge could go here -->
+        </a>
+    </li>
+</ul>

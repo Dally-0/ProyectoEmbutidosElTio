@@ -1,0 +1,39 @@
+@model ProyectoFinalEmbutidosElTio.Models.Noticia
+
+@{
+    ViewData["Title"] = "Eliminar Noticia";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8 border-l-8 border-red-500">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">¿Eliminar Noticia?</h1>
+        <p class="text-gray-600 mb-8">Esta acción no se puede deshacer. ¿Estás seguro de que deseas eliminar esta noticia?</p>
+
+        <div class="bg-gray-50 rounded p-4 mb-8">
+            <dl class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2">
+                <div class="sm:col-span-2">
+                    <dt class="text-sm font-medium text-gray-500">Título</dt>
+                    <dd class="mt-1 text-lg font-semibold text-gray-900">@Model.Titulo</dd>
+                </div>
+                <div class="sm:col-span-1">
+                    <dt class="text-sm font-medium text-gray-500">Fecha</dt>
+                    <dd class="mt-1 text-sm text-gray-900">@Model.FechaPublicacion?.ToString("dd/MM/yyyy HH:mm")</dd>
+                </div>
+                <div class="sm:col-span-1">
+                    <dt class="text-sm font-medium text-gray-500">Publicado por</dt>
+                    <dd class="mt-1 text-sm text-gray-900">
+                        @(Model.UsuarioAdmin != null ? $"{Model.UsuarioAdmin.Nombre} {Model.UsuarioAdmin.ApPaterno}" : "Admin")
+                    </dd>
+                </div>
+            </dl>
+        </div>
+
+        <form asp-action="Delete" class="flex items-center justify-end gap-4">
+            <input type="hidden" asp-for="IdNoticia" />
+            <a asp-action="Index" class="text-gray-500 hover:text-gray-700 text-sm font-bold">Cancelar</a>
+            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition">
+                Eliminar Definitivamente
+            </button>
+        </form>
+    </div>
+</div>
