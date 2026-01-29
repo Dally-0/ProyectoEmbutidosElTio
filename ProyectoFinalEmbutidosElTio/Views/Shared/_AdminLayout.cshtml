@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin El Tío</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Poppins', 'sans-serif'],
+            },
+            colors: {
+              sidebar: '#111827', // Dark sidebar
+              bg: '#f3f4f6', 
+              primary: '#ffffff', // White text
+              accent: '#dc2626', // Red accent
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="bg-gray-50 flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-900 border-r border-gray-800 flex flex-col hidden md:flex text-gray-300">
+        <!-- Brand -->
+        <div class="h-16 flex items-center px-6 border-b border-gray-800">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-red-900/20">T</div>
+                <span class="text-lg font-bold text-white tracking-wide">Admin Panel</span>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 overflow-y-auto py-4">
+            <ul class="space-y-1 px-3">
+                <li>
+                    <a asp-controller="Dashboard" asp-action="Index" class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-all @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "bg-red-600 text-white shadow-md shadow-red-900/30" : "text-gray-400 hover:bg-gray-800 hover:text-white")">
+                        <span>📊</span> Dashboard
+                    </a>
+                </li>
+                
+                <div class="pt-4 pb-1 pl-3 text-xs font-bold text-gray-500 uppercase tracking-wider">Gestión</div>
+                
+                <li>
+                    <a asp-controller="AdminProductos" asp-action="Index" class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-all text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <span>📦</span> Productos
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="AdminPedidos" asp-action="Index" class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-all text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <span>📋</span> Pedidos
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="AdminUsuarios" asp-action="Index" class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-all text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <span>👥</span> Usuarios
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Dashboard" asp-action="Pagos" class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-all text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <span>💰</span> Reporte Pagos
+                    </a>
+                </li>
+                 <li>
+                    <a asp-controller="AdminNoticias" asp-action="Index" class="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-all text-gray-400 hover:bg-gray-800 hover:text-white">
+                        <span>📰</span> Noticias
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Footer Sidebar -->
+        <div class="p-4 border-t border-gray-800 bg-slate-900/50">
+            <a asp-controller="Home" asp-action="Index" class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-400 hover:text-red-400 transition-colors">
+                <span>↩️</span> Volver a la Tienda
+            </a>
+            <div class="mt-4 flex items-center gap-3">
+                 <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center text-xs font-bold text-white border border-gray-600">
+                    AD
+                </div>
+                <div>
+                   <p class="text-sm font-medium text-white">Admin</p>
+                   <p class="text-xs text-gray-500">admin@eltio.com</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col h-screen overflow-hidden">
+        <!-- Header -->
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 lg:px-8">
+            <h1 class="text-xl font-semibold text-gray-800">@ViewData["Title"]</h1>
+            <div class="flex items-center gap-4">
+               <button class="p-2 text-gray-400 hover:text-gray-600">🔔</button>
+               <partial name="_LoginPartial" />
+            </div>
+        </header>
+
+        <!-- Scrollable Content -->
+        <main class="flex-1 overflow-y-auto bg-gray-50 p-6 lg:p-8">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

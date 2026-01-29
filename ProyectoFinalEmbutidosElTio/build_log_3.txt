@@ -1,0 +1,11 @@
+  Determinando los proyectos que se van a restaurar...
+  Todos los proyectos están actualizados para la restauración.
+C:\Users\Windows 11\Documents\materias\PrograWeb2\TAREA\prograwweb2final\ProyectoEmbutidosElTio\ProyectoFinalEmbutidosElTio\Program.cs(28,5): error CS1022: Se esperaba una definición de tipo o espacio de nombres, o el fin del archivo [C:\Users\Windows 11\Documents\materias\PrograWeb2\TAREA\prograwweb2final\ProyectoEmbutidosElTio\ProyectoFinalEmbutidosElTio\ProyectoFinalEmbutidosElTio.csproj]
+
+ERROR al compilar.
+
+C:\Users\Windows 11\Documents\materias\PrograWeb2\TAREA\prograwweb2final\ProyectoEmbutidosElTio\ProyectoFinalEmbutidosElTio\Program.cs(28,5): error CS1022: Se esperaba una definición de tipo o espacio de nombres, o el fin del archivo [C:\Users\Windows 11\Documents\materias\PrograWeb2\TAREA\prograwweb2final\ProyectoEmbutidosElTio\ProyectoFinalEmbutidosElTio\ProyectoFinalEmbutidosElTio.csproj]
+    0 Advertencia(s)
+    1 Errores
+
+Tiempo transcurrido 00:00:01.40

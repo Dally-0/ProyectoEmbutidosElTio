@@ -12,7 +12,7 @@ namespace ProyectoFinalEmbutidosElTio.Models.ViewModels
     {
         public Producto Producto { get; set; } = new Producto();
         public int Quantity { get; set; }
-        public decimal Subtotal => Producto.Precio * Quantity;
+        public decimal Subtotal => Producto.Precio_final * Quantity;
     }
 
     public class CartViewModel

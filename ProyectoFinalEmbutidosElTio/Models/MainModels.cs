@@ -75,8 +75,12 @@ namespace ProyectoFinalEmbutidosElTio.Models
         public Categoria? Categoria { get; set; }
 
         [Required]
-        [Column("precio", TypeName = "decimal(18,2)")]
-        public decimal Precio { get; set; }
+        [Column("precio_produccion", TypeName = "decimal(18,2)")]
+        public decimal PrecioProduccion { get; set; }
+
+        [Required]
+        [Column("precio_final", TypeName = "decimal(18,2)")]
+        public decimal Precio_final { get; set; }
 
         [Required]
         [Column("stock")]
@@ -175,5 +179,33 @@ namespace ProyectoFinalEmbutidosElTio.Models
         public int? IdUsuarioAdmin { get; set; }
         [ForeignKey("IdUsuarioAdmin")]
         public Usuario? UsuarioAdmin { get; set; }
+    }
+    [Table("Pagos_Paypal")]
+    public class PagoPaypal
+    {
+        [Key]
+        [Column("id_pago")]
+        public int IdPago { get; set; }
+
+        [Column("id_pedido")]
+        public int IdPedido { get; set; }
+        [ForeignKey("IdPedido")]
+        public Pedido? Pedido { get; set; }
+
+        [Required]
+        [Column("id_transaccion_paypal")]
+        [StringLength(100)]
+        public string IdTransaccionPaypal { get; set; } = string.Empty;
+
+        [Required]
+        [Column("monto_pagado", TypeName = "decimal(18,2)")]
+        public decimal MontoPagado { get; set; }
+
+        [Column("estado_pago")]
+        [StringLength(50)]
+        public string? EstadoPago { get; set; }
+
+        [Column("fecha_pago")]
+        public DateTime? FechaPago { get; set; } = DateTime.Now;
     }
 }

@@ -14,7 +14,7 @@ namespace ProyectoFinalEmbutidosElTio.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(int? categoriaId)
+        public async Task<IActionResult> Index(string searchString, int? categoriaId)
         {
             var query = _context.Productos.AsQueryable();
 
@@ -23,8 +23,14 @@ namespace ProyectoFinalEmbutidosElTio.Controllers
                 query = query.Where(p => p.IdCategoria == categoriaId);
             }
 
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(p => p.Nombre.Contains(searchString));
+            }
+
             ViewData["Categorias"] = await _context.Categorias.ToListAsync();
             ViewData["CurrentCategoria"] = categoriaId;
+            ViewData["CurrentFilter"] = searchString;
 
             return View(await query.ToListAsync());
         }

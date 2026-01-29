@@ -1,0 +1,132 @@
+@model ProyectoFinalEmbutidosElTio.Models.ViewModels.PagosViewModel
+
+@{
+    ViewData["Title"] = "Reporte de Pagos";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4 md:mb-0">Reporte de Pagos</h1>
+        
+        <div class="flex gap-2">
+            <a asp-action="Pagos" asp-route-filtro="todos" 
+               class="px-4 py-2 rounded transition @(Model.FiltroActual == "todos" ? "bg-orange-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
+                Ver Todos
+            </a>
+            <a asp-action="Pagos" asp-route-filtro="paypal" 
+               class="px-4 py-2 rounded transition @(Model.FiltroActual == "paypal" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
+                Solo PayPal
+            </a>
+            <a asp-action="Pagos" asp-route-filtro="otros" 
+               class="px-4 py-2 rounded transition @(Model.FiltroActual == "otros" ? "bg-green-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
+                Efectivo/Otros
+            </a>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- Ingresos -->
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-green-500">
+            <h3 class="text-gray-500 text-sm font-semibold uppercase">Total Ingresos</h3>
+            <p class="text-3xl font-bold text-gray-800 mt-2">$@Model.TotalIngresos.ToString("N2")</p>
+            <p class="text-xs text-green-600 mt-1">Total recaudado</p>
+        </div>
+
+        <!-- Costos Producción -->
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-red-500">
+            <h3 class="text-gray-500 text-sm font-semibold uppercase">Costo Producción</h3>
+            <p class="text-3xl font-bold text-gray-800 mt-2">$@Model.TotalCostoProduccion.ToString("N2")</p>
+            <p class="text-xs text-red-600 mt-1">Costo de lo vendido</p>
+        </div>
+
+        <!-- Ganancia -->
+        <div class="bg-white rounded-lg shadow-sm p-6 border-l-4 border-blue-500">
+            <h3 class="text-gray-500 text-sm font-semibold uppercase">Ganancia Neta</h3>
+            <p class="text-3xl font-bold text-gray-800 mt-2">$@Model.TotalGanancia.ToString("N2")</p>
+            <p class="text-xs text-blue-600 mt-1">Ingresos - Costos</p>
+        </div>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full leading-normal">
+                <thead>
+                    <tr>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            ID Pedido
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Cliente
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Fecha
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Método
+                        </th>
+                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Referencia
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Monto
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Estado
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Pagos.Any())
+                    {
+                        foreach (var item in Model.Pagos)
+                        {
+                            <tr>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <span class="font-bold">#@item.IdPedido</span>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <div class="flex items-center">
+                                        <div class="ml-3">
+                                            <p class="text-gray-900 whitespace-no-wrap">
+                                                @item.Cliente
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p class="text-gray-900 whitespace-no-wrap">@item.Fecha.ToString("dd/MM/yyyy HH:mm")</p>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <span class="relative inline-block px-3 py-1 font-semibold leading-tight @(item.MetodoPago == "PayPal" ? "text-blue-900" : "text-green-900")">
+                                        <span aria-hidden="true" class="absolute inset-0 @(item.MetodoPago == "PayPal" ? "bg-blue-200" : "bg-green-200") opacity-50 rounded-full"></span>
+                                        <span class="relative">@item.MetodoPago</span>
+                                    </span>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p class="text-gray-600 text-xs font-mono">@item.Referencia</p>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p class="text-gray-900 font-bold whitespace-no-wrap">$@item.Monto.ToString("N2")</p>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                        @item.Estado
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                No se encontraron pagos registrados para este filtro.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

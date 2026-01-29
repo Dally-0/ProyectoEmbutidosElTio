@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Gestión de Pedidos";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="container mx-auto px-4 py-8">
@@ -37,7 +38,7 @@
                 @foreach (var item in Model) {
                 <tr>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">#@item.IdPedido</p>
+                        <p class="text-gray-900 whitespace-no-wrap font-mono">#@item.IdPedido</p>
                     </td>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p class="text-gray-900 whitespace-no-wrap">@item.FechaPedido?.ToString("dd/MM/yyyy HH:mm")</p>
@@ -46,15 +47,28 @@
                          <p class="text-gray-900 whitespace-no-wrap">@item.Usuario?.Nombre @item.Usuario?.ApPaterno</p>
                     </td>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 font-bold whitespace-no-wrap">$@item.Total</p>
+                        <p class="text-gray-900 font-bold whitespace-no-wrap">$@item.Total.ToString("N2")</p>
                     </td>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                            @(item.IdEstadoPedido == 4 ? "bg-green-100 text-green-800" : 
+                              item.IdEstadoPedido == 1 ? "bg-yellow-100 text-yellow-800" : "bg-gray-100 text-gray-800")">
                              @item.EstadoPedido?.NombreEstado
                          </span>
                     </td>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <a asp-action="Details" asp-route-id="@item.IdPedido" class="text-blue-600 hover:text-blue-900">Ver Detalles</a>
+                        <div class="flex flex-col gap-2">
+                            <a asp-action="Details" asp-route-id="@item.IdPedido" class="text-blue-600 hover:text-blue-900 text-xs font-semibold">Ver Detalles</a>
+                            
+                            @if (item.IdEstadoPedido == 1) // Pendiente
+                            {
+                                <form asp-action="ConfirmarEntrega" asp-route-id="@item.IdPedido" method="post">
+                                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-1 px-2 rounded w-full transition">
+                                        Confirmar Entrega
+                                    </button>
+                                </form>
+                            }
+                        </div>
                     </td>
                 </tr>
                 }

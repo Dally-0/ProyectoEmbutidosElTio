@@ -31,7 +31,7 @@ namespace ProyectoFinalEmbutidosElTio.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nombre,Descripcion,IdCategoria,Precio,Stock,StockMinimo,FechaVencimiento,ImagenUrl,Activo")] Producto producto)
+        public async Task<IActionResult> Create([Bind("Nombre,Descripcion,IdCategoria,PrecioProduccion,Precio_final,Stock,StockMinimo,FechaVencimiento,ImagenUrl,Activo")] Producto producto)
         {
             producto.FechaIngreso = DateTime.Now;
             if (ModelState.IsValid)
@@ -57,7 +57,7 @@ namespace ProyectoFinalEmbutidosElTio.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,Nombre,Descripcion,IdCategoria,Precio,Stock,StockMinimo,FechaVencimiento,ImagenUrl,Activo,FechaIngreso")] Producto producto)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProducto,Nombre,Descripcion,IdCategoria,PrecioProduccion,Precio_final,Stock,StockMinimo,FechaVencimiento,ImagenUrl,Activo,FechaIngreso")] Producto producto)
         {
             if (id != producto.IdProducto) return NotFound();
 

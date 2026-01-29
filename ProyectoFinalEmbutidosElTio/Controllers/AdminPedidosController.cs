@@ -41,5 +41,23 @@ namespace ProyectoFinalEmbutidosElTio.Controllers
 
             return View(pedido);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ConfirmarEntrega(int id)
+        {
+            var pedido = await _context.Pedidos.FindAsync(id);
+            if (pedido == null)
+            {
+                return NotFound();
+            }
+
+            // Set status to 4 (Entregado) assuming this implies Paid & Delivered
+            pedido.IdEstadoPedido = 4;
+            _context.Update(pedido);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

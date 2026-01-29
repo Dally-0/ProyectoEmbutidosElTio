@@ -26,6 +26,9 @@ builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.C
         options.AccessDeniedPath = "/Account/AccessDenied";
     });
 
+
+builder.Services.AddScoped<ProyectoFinalEmbutidosElTio.Services.PayPalService>();
+
 var app = builder.Build();
 
 // --- DATABASE SEEDER (Fixes Login Issues) ---

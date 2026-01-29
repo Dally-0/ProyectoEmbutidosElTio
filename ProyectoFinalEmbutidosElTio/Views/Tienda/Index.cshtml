@@ -16,10 +16,48 @@
             </p>
         </div>
 
-        <!-- Category Filter (Simplified) -->
-        <div class="flex justify-center mb-8 space-x-4">
-             <a asp-action="Index" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-orange-600 hover:text-white transition">Todos</a>
-             <!-- Categories would need to be passed dynamically to be truly effective, hardcoding logic or viewbag here needed ideally, but keeping simple for now -->
+        <!-- Search & Filter Section -->
+        <div class="mb-10">
+            <!-- Search Bar -->
+            <form asp-action="Index" method="get" class="max-w-xl mx-auto mb-8">
+                <div class="relative flex items-center">
+                    <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" 
+                           placeholder="Buscar productos (ej. Chorizo, Jamón...)"
+                           class="w-full px-5 py-3 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-150 ease-in-out" />
+                    
+                    @if (ViewData["CurrentCategoria"] != null)
+                    {
+                        <input type="hidden" name="categoriaId" value="@ViewData["CurrentCategoria"]" />
+                    }
+
+                    <button type="submit" class="absolute right-2 bg-orange-600 text-white p-2 rounded-full hover:bg-orange-700 focus:outline-none transition transform hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Categories Filter -->
+            <div class="flex flex-wrap justify-center gap-3">
+                 <a asp-action="Index" asp-route-searchString="@ViewData["CurrentFilter"]"
+                    class="px-5 py-2 rounded-full text-sm font-medium transition shadow-sm
+                    @(ViewData["CurrentCategoria"] == null ? "bg-orange-600 text-white shadow-orange-500/30" : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200")">
+                    Todos
+                 </a>
+
+                 @if (ViewData["Categorias"] is List<ProyectoFinalEmbutidosElTio.Models.Categoria> categorias)
+                 {
+                     foreach (var cat in categorias)
+                     {
+                         <a asp-action="Index" asp-route-categoriaId="@cat.IdCategoria" asp-route-searchString="@ViewData["CurrentFilter"]"
+                            class="px-5 py-2 rounded-full text-sm font-medium transition shadow-sm
+                            @(ViewData["CurrentCategoria"]?.ToString() == cat.IdCategoria.ToString() ? "bg-orange-600 text-white shadow-orange-500/30" : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200")">
+                            @cat.NombreTipo
+                         </a>
+                     }
+                 }
+            </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
@@ -49,7 +87,7 @@
                             @item.Descripcion
                         </div>
                          <div class="mt-4 flex justify-between items-center">
-                            <span class="text-2xl font-bold text-gray-900">$@item.Precio</span>
+                            <span class="text-2xl font-bold text-gray-900">$@item.Precio_final</span>
                              @if(item.Activo && item.Stock > 0) {
                                 <a asp-action="Details" asp-route-id="@item.IdProducto" class="text-white bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded shadow-md transition">
                                     Ver Detalles

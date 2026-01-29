@@ -18,6 +18,7 @@ namespace ProyectoFinalEmbutidosElTio.Data
         public DbSet<Pedido> Pedidos { get; set; }
         public DbSet<DetallePedido> DetallesPedido { get; set; }
         public DbSet<Noticia> Noticias { get; set; }
+        public DbSet<PagoPaypal> PagosPaypal { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -30,7 +31,7 @@ namespace ProyectoFinalEmbutidosElTio.Data
                 
             // Precision for decimals
             modelBuilder.Entity<Producto>()
-                .Property(p => p.Precio)
+                .Property(p => p.Precio_final)
                 .HasPrecision(18, 2);
 
             modelBuilder.Entity<Pedido>()
@@ -39,6 +40,14 @@ namespace ProyectoFinalEmbutidosElTio.Data
 
             modelBuilder.Entity<DetallePedido>()
                 .Property(p => p.PrecioUnitario)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Producto>()
+                .Property(p => p.PrecioProduccion)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<PagoPaypal>()
+                .Property(p => p.MontoPagado)
                 .HasPrecision(18, 2);
         }
     }
