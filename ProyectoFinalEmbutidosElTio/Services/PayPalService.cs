@@ -44,6 +44,7 @@ namespace ProyectoFinalEmbutidosElTio.Services
             
             var orderRequest = new CreateOrderRequest
             {
+                Intent = "CAPTURE", // Explicitly setting per user request
                 PurchaseUnits = new List<PurchaseUnitRequest>
                 {
                     new PurchaseUnitRequest

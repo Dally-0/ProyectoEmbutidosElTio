@@ -1,0 +1,98 @@
+﻿@model IEnumerable<ProyectoFinalEmbutidosElTio.Models.Producto>
+
+<input type="hidden" id="totalProductosHidden" value="@Model.Count()" />
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pb-10">
+    @foreach (var item in Model)
+    {
+        var tieneStock = item.Activo && item.Stock > 0;
+
+        <div class="group relative bg-[#1a1a1a] flex flex-col h-full overflow-hidden border border-white/10 hover:border-gold-500/50 shadow-lg hover:shadow-[0_0_30px_rgba(234,179,8,0.2)] transition-all duration-300 transform hover:-translate-y-1">
+
+            <div class="relative h-64 overflow-hidden bg-black">
+                <img src="@(string.IsNullOrEmpty(item.ImagenUrl) ? "https://via.placeholder.com/400x400/222/555?text=Sin+Imagen" : item.ImagenUrl)"
+                     alt="@item.Nombre"
+                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 @(!tieneStock ? "grayscale opacity-40" : "")">
+
+                <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-transparent to-transparent opacity-100"></div>
+
+                @if (!tieneStock)
+                {
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-20">
+                        <div class="border-4 border-red-600 text-red-600 font-black uppercase tracking-[0.2em] px-6 py-2 rotate-12 text-2xl shadow-2xl bg-black">
+                            Agotado
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="absolute top-3 right-3 z-20">
+                        <span class="bg-gold-500 text-black text-[10px] font-black px-3 py-1 uppercase tracking-widest shadow-lg">
+                            Premium
+                        </span>
+                    </div>
+                }
+            </div>
+
+            <div class="p-6 flex-grow flex flex-col relative z-10">
+
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="h-px w-4 bg-rust-500"></span>
+                    <span class="text-rust-400 text-xs font-bold uppercase tracking-widest">
+                        @item.Categoria?.NombreTipo
+                    </span>
+                </div>
+
+                <h3 class="text-xl font-slab font-black text-white leading-tight mb-3 group-hover:text-gold-500 transition-colors">
+                    @item.Nombre
+                </h3>
+
+                <p class="text-gray-400 text-sm font-sans mb-6 line-clamp-2 leading-relaxed flex-grow">
+                    @item.Descripcion
+                </p>
+
+                <div class="w-full h-px bg-white/10 mb-4"></div>
+
+                <div class="mt-auto">
+                    <div class="flex justify-between items-end mb-4">
+                        <span class="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Precio Final</span>
+                        <div class="text-right">
+                            <span class="text-3xl font-black text-gold-400 font-slab">@item.Precio_final.ToString("0.##")</span>
+                            <span class="text-sm text-gray-400 font-bold">Bs</span>
+                        </div>
+                    </div>
+
+                    @if (tieneStock)
+                    {
+                        <a asp-action="Details" asp-route-id="@item.IdProducto"
+                           class="w-full block bg-rust-600 hover:bg-gold-500 text-white hover:text-black font-bold uppercase tracking-[0.15em] text-sm py-3 text-center transition-all duration-300 shadow-md hover:shadow-gold-500/20 group-hover:translate-y-0">
+                            Ver Detalles
+                        </a>
+                    }
+                    else
+                    {
+                        <button disabled class="w-full block bg-gray-800 border border-gray-700 text-gray-500 font-bold uppercase tracking-[0.15em] text-sm py-3 text-center cursor-not-allowed">
+                            Sin Stock
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="col-span-full py-24 text-center border-2 border-dashed border-gray-700 rounded-lg bg-white/5 animate-fade-in-up">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-800 mb-4 text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+        </div>
+        <h3 class="text-2xl font-black font-slab text-white mb-2">No encontramos coincidencias</h3>
+        <p class="text-gray-400 font-sans max-w-md mx-auto mb-8">Intenta buscar con otros términos o ajusta los filtros de precio.</p>
+        <button onclick="limpiarFiltros()" class="px-8 py-3 bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-gold-500 transition-colors shadow-xl">
+            Restablecer Filtros
+        </button>
+    </div>
+}

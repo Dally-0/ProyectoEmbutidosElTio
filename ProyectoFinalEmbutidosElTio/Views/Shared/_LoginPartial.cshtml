@@ -1,44 +1,80 @@
-@using Microsoft.AspNetCore.Identity
-@using ProyectoFinalEmbutidosElTio.Extensions
-@inject ProyectoFinalEmbutidosElTio.Data.AppDbContext Context
+﻿@using Microsoft.AspNetCore.Identity
+@inject ProyectoFinalEmbutidosElTio.Data.AppDbContext DbContext
 
-<ul class="flex items-center space-x-4">
-@if (User.Identity.IsAuthenticated)
-{
-    var userEmail = User.Identity.Name;
-    /* In a real app we might fetch user name from claims or DB, simplified here */
-    
-    @if (User.IsInRole("Administrador"))
+<ul class="flex items-center gap-4 md:gap-6">
+
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
-         <li>
-            <a class="text-gray-600 hover:text-orange-600 font-medium transition" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+        // ==========================================
+        // 1. BOTÓN DASHBOARD (Solo Admin)
+        // ==========================================
+        @if (User.IsInRole("Administrador"))
+        {
+            <li>
+                <a class="bg-gold-500 text-charcoal-900 px-3 py-1 rounded-sm font-slab font-bold text-xs md:text-sm hover:bg-white transition-colors border-b-2 border-yellow-700 shadow-md uppercase tracking-wider flex items-center gap-1"
+                   asp-controller="Dashboard" asp-action="Index">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Admin</span>
+                </a>
+            </li>
+        }
+
+        // ==========================================
+        // 2. PERFIL DE USUARIO (Icono + Nombre)
+        // ==========================================
+        <li>
+            <a asp-controller="Cliente" asp-action="Perfil" class="flex items-center gap-2 group cursor-pointer" title="Ir a mi perfil">
+                <div class="w-8 h-8 rounded-full bg-charcoal-800 border border-rust-500 flex items-center justify-center text-gold-500 group-hover:bg-rust-600 group-hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <span class="text-parchment-100 font-slab font-bold text-sm group-hover:text-gold-500 transition-colors hidden sm:block">
+                    @User.Identity?.Name
+                </span>
+            </a>
+        </li>
+
+        // ==========================================
+        // 3. BOTÓN SALIR
+        // ==========================================
+        <li>
+            <form class="inline" asp-controller="Account" asp-action="Logout" method="post">
+                <button type="submit" class="text-gray-400 hover:text-rust-500 font-slab text-xs font-bold uppercase transition-colors pt-1">
+                    (Salir)
+                </button>
+            </form>
+        </li>
+    }
+    else
+    {
+        // ==========================================
+        // VISITANTE (Login / Registro)
+        // ==========================================
+        <li class="hidden xs:block">
+            <a class="text-parchment-100 hover:text-gold-500 font-slab font-bold text-xs md:text-sm transition uppercase tracking-wide"
+               asp-controller="Account" asp-action="Register">
+                Registro
+            </a>
+        </li>
+        <li>
+            <a class="bg-rust-600 text-white px-3 py-1 md:px-5 md:py-1.5 rounded-sm font-slab font-bold text-xs md:text-sm hover:bg-rust-700 transition shadow-md border-b-2 border-rust-800 uppercase tracking-wide"
+               asp-controller="Account" asp-action="Login">
+                Login
+            </a>
         </li>
     }
 
+    <li class="h-6 w-px bg-gray-700 hidden md:block"></li>
+
     <li>
-        <span class="text-gray-800">Hola, <span class="font-bold">@User.Identity.Name</span></span>
-    </li>
-    <li>
-        <form class="inline" asp-controller="Account" asp-action="Logout" method="post">
-            <button  type="submit" class="text-gray-600 hover:text-orange-600 font-medium transition bg-transparent border-none cursor-pointer">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li>
-        <a class="text-gray-600 hover:text-orange-600 font-medium transition" asp-controller="Account" asp-action="Register">Registro</a>
-    </li>
-    <li>
-        <a class="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700 transition shadow-md" asp-controller="Account" asp-action="Login">Login</a>
-    </li>
-}
-    <li>
-         <a class="relative text-gray-600 hover:text-orange-600 transition" asp-controller="Carrito" asp-action="Index">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        <a class="relative group text-parchment-100 hover:text-gold-500 transition-colors flex items-center"
+           asp-controller="Carrito" asp-action="Index">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
-             <!-- Badge could go here -->
         </a>
     </li>
 </ul>

@@ -1,92 +1,451 @@
-﻿@{
+﻿@model IEnumerable<ProyectoFinalEmbutidosElTio.Models.Producto>
+@{
     ViewData["Title"] = "Inicio";
 }
 
-<!-- Hero Section with Background Image -->
-<div class="relative bg-gray-900 overflow-hidden -mt-10">
-    <!-- Overlay & Image -->
-    <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" alt="Carne Premium" class="w-full h-full object-cover opacity-50">
-        <div class="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent"></div>
+<div class="relative w-full -mt-16 md:-mt-24 lg:-mt-32 overflow-hidden bg-[#050505] font-sans">
+
+    <div id="custom-carousel" class="relative w-full h-[85vh] md:h-[95vh] min-h-[600px] overflow-hidden group">
+
+        <div id="carousel-track" class="flex transition-transform duration-1000 cubic-bezier(0.4, 0, 0.2, 1) h-full w-full">
+
+            <div class="w-full flex-shrink-0 h-full relative">
+                <div class="absolute inset-0 overflow-hidden">
+                    <img src="~/img/carrousel 1.png" class="w-full h-full object-cover object-center animate-kenburns" alt="Jamón Ibérico">
+                </div>
+                <div class="absolute inset-0 bg-black/60 md:bg-gradient-to-r md:from-black/90 md:via-black/40 md:to-transparent"></div>
+
+                <div class="absolute inset-0 flex flex-col justify-center items-center md:items-start px-6 md:px-24 max-w-7xl mx-auto pt-16 md:pt-20 text-center md:text-left">
+                    <div class="space-y-4 md:space-y-6 opacity-0 animate-slide-in">
+
+                        <span class="inline-block px-3 py-1 bg-gold-500/20 text-gold-400 font-slab font-bold tracking-[0.2em] uppercase text-[10px] md:text-xs rounded-sm backdrop-blur-md border border-gold-500/30">
+                            Colección Reserva
+                        </span>
+
+                        <h1 class="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-slab font-black text-white uppercase leading-[0.9] drop-shadow-2xl">
+                            Tradición <br />
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-rust-500 via-rust-400 to-red-600">Ibérica</span>
+                        </h1>
+
+                        <p class="text-gray-300 text-sm md:text-xl max-w-xs md:max-w-xl font-serif italic font-light leading-relaxed mx-auto md:mx-0 border-t border-white/20 pt-4 md:pt-6">
+                            "Curación lenta en nuestras bodegas para paladares exigentes."
+                        </p>
+
+                        <div class="pt-4">
+                            <a asp-controller="Tienda" asp-action="Index" class="group relative inline-flex items-center gap-3 bg-rust-600 text-white px-8 py-3 md:px-10 md:py-4 font-slab font-bold text-sm md:text-lg rounded-sm overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(194,65,12,0.5)]">
+                                <span class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></span>
+                                <span class="relative uppercase tracking-widest">Explorar Catálogo</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full flex-shrink-0 h-full relative">
+                <div class="absolute inset-0 overflow-hidden">
+                    <img src="~/img/Diseño sin título.png" class="w-full h-full object-cover object-center animate-kenburns-reverse" alt="Parrilla">
+                </div>
+                <div class="absolute inset-0 bg-black/60 md:bg-gradient-to-l md:from-black/90 md:via-black/40 md:to-transparent"></div>
+
+                <div class="absolute inset-0 flex flex-col justify-center items-center md:items-end text-center md:text-right px-6 md:px-24 max-w-7xl mx-auto pt-16 md:pt-20">
+                    <div class="space-y-4 md:space-y-6 opacity-0 animate-slide-in-right">
+
+                        <span class="inline-block px-3 py-1 bg-rust-900/40 text-rust-400 font-slab font-bold tracking-[0.2em] uppercase text-[10px] md:text-xs rounded-sm border border-rust-500/30">
+                            Maestros del Fuego
+                        </span>
+
+                        <h1 class="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-slab font-black text-white uppercase leading-[0.9] drop-shadow-2xl">
+                            Pasión <br />
+                            <span class="text-gold-500">Parrillera</span>
+                        </h1>
+
+                        <p class="text-gray-300 text-sm md:text-xl max-w-xs md:max-w-xl md:ml-auto font-serif italic font-light leading-relaxed mx-auto border-t border-white/20 pt-4 md:pt-6">
+                            Chorizos artesanales con la mezcla perfecta de especias.
+                        </p>
+
+                        <div class="pt-4">
+                            <a asp-controller="Tienda" asp-action="Index" class="inline-flex items-center gap-3 bg-white text-charcoal-900 px-8 py-3 md:px-10 md:py-4 font-slab font-bold text-sm md:text-lg rounded-sm hover:bg-gold-500 hover:text-black transition-all shadow-lg uppercase tracking-widest">
+                                <span>Ver Parrilleros</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full flex-shrink-0 h-full relative">
+                <div class="absolute inset-0 overflow-hidden">
+                    <img src="~/img/wallhaven-ogg23p.jpg" class="w-full h-full object-cover object-center animate-kenburns" alt="Picada">
+                </div>
+                <div class="absolute inset-0 bg-black/50 md:bg-gradient-to-t md:from-black/90 md:via-black/30 md:to-transparent"></div>
+
+                <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-6 max-w-5xl mx-auto pt-16 md:pt-20">
+                    <div class="space-y-4 md:space-y-6 opacity-0 animate-slide-in-up">
+
+                        <span class="inline-block border-b-2 border-gold-500 pb-1 text-gold-500 font-slab font-bold tracking-[0.3em] uppercase text-[10px] md:text-sm mb-2">
+                            Arte en Tabla
+                        </span>
+
+                        <h1 class="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-slab font-black text-white uppercase leading-[0.9] drop-shadow-2xl">
+                            Momentos <br />
+                            <span class="text-rust-500">Únicos</span>
+                        </h1>
+
+                        <p class="text-gray-200 text-sm md:text-xl max-w-xs md:max-w-2xl mx-auto font-sans font-light leading-relaxed">
+                            La excusa perfecta para reunirse. Salami, quesos y madurados.
+                        </p>
+
+                        <div class="pt-6 md:pt-8">
+                            <a asp-controller="Tienda" asp-action="Index" class="inline-flex items-center gap-3 bg-transparent border-2 border-gold-500 text-gold-500 px-8 py-3 md:px-10 md:py-4 font-slab font-bold text-sm md:text-lg rounded-sm hover:bg-gold-500 hover:text-black transition-all uppercase tracking-wider backdrop-blur-sm">
+                                <span>Ver Packs</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hidden md:flex absolute inset-0 items-center justify-between px-8 pointer-events-none">
+            <button id="prevBtn" class="pointer-events-auto bg-black/20 hover:bg-rust-600 text-white w-14 h-14 flex items-center justify-center rounded-full backdrop-blur-md border border-white/10 transition-all duration-300 hover:scale-110 hover:border-gold-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+            </button>
+            <button id="nextBtn" class="pointer-events-auto bg-black/20 hover:bg-rust-600 text-white w-14 h-14 flex items-center justify-center rounded-full backdrop-blur-md border border-white/10 transition-all duration-300 hover:scale-110 hover:border-gold-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+            </button>
+        </div>
+
+        <div class="absolute bottom-8 md:bottom-12 w-full flex justify-center z-20">
+            <div class="flex space-x-2 md:space-x-3 bg-black/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/5">
+                <button class="indicator w-8 md:w-12 h-1 bg-white/40 hover:bg-white transition-all rounded-full data-[active=true]:bg-gold-500 data-[active=true]:w-12 md:data-[active=true]:w-20" onclick="goToSlide(0)"></button>
+                <button class="indicator w-8 md:w-12 h-1 bg-white/40 hover:bg-white transition-all rounded-full data-[active=true]:bg-gold-500 data-[active=true]:w-12 md:data-[active=true]:w-20" onclick="goToSlide(1)"></button>
+                <button class="indicator w-8 md:w-12 h-1 bg-white/40 hover:bg-white transition-all rounded-full data-[active=true]:bg-gold-500 data-[active=true]:w-12 md:data-[active=true]:w-20" onclick="goToSlide(2)"></button>
+            </div>
+        </div>
     </div>
 
-    <!-- Content -->
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-48 flex flex-col justify-center h-full">
-        <span class="text-orange-500 font-bold uppercase tracking-widest mb-4 animate-fade-in-down">Calidad Premium</span>
-        <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight max-w-3xl animate-fade-in-down animation-delay-200">
-            Sabor Auténtico <br/>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600">De Carne 100% Real</span>
-        </h1>
-        <p class="text-xl text-gray-200 mb-8 max-w-2xl animate-fade-in-up animation-delay-400">
-            Disfruta de embutidos artesanales elaborados con las vacas más finas y selectas. Llevamos el verdadero sabor del campo a tu mesa con una calidad inigualable.
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-400">
-            <a asp-controller="Tienda" asp-action="Index" class="px-8 py-4 bg-orange-600 text-white font-bold rounded-lg shadow-lg hover:bg-orange-700 hover:scale-105 transition-all duration-300 text-center">
-                Ver Tienda
+    <div class="bg-rust-700 py-3 md:py-4 border-y-4 border-rust-800 overflow-hidden relative z-20 shadow-2xl">
+        <div class="whitespace-nowrap animate-scroll flex items-center">
+            @for (int i = 0; i < 6; i++)
+            {
+                <div class="flex items-center">
+                    <span class="mx-6 md:mx-12 text-gold-400 font-slab font-black uppercase tracking-[0.15em] text-[10px] md:text-sm flex items-center gap-3">
+                        <span class="text-white text-lg">★</span> Envíos Nacionales
+                    </span>
+                    <span class="mx-6 md:mx-12 text-white font-slab font-black uppercase tracking-[0.15em] text-[10px] md:text-sm flex items-center gap-3">
+                        <span class="text-gold-500 text-lg">♦</span> Calidad Premium
+                    </span>
+                    <span class="mx-6 md:mx-12 text-gold-400 font-slab font-black uppercase tracking-[0.15em] text-[10px] md:text-sm flex items-center gap-3">
+                        <span class="text-white text-lg">★</span> Desde 1985
+                    </span>
+                </div>
+            }
+        </div>
+    </div>
+
+    <section class="py-16 md:py-32 bg-[#0a0a0a] relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')] opacity-5"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-gradient-to-b from-rust-900/10 to-transparent blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-12 md:mb-20">
+                <span class="text-gold-500 font-slab font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs block mb-3 animate-fade-in-up">Selección del Maestro</span>
+                <h2 class="text-4xl md:text-7xl font-black text-white uppercase leading-none drop-shadow-xl">
+                    Nuestras <span class="text-transparent bg-clip-text bg-gradient-to-r from-rust-500 to-red-600">Joyas</span>
+                </h2>
+                <div class="w-16 md:w-24 h-1 bg-rust-500 mx-auto mt-4 md:mt-6 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        var tieneStock = item.Activo && item.Stock > 0;
+
+                        <div class="group relative bg-[#151515] flex flex-col h-full overflow-hidden border border-white/5 hover:border-gold-500/50 shadow-lg hover:shadow-[0_0_40px_rgba(234,179,8,0.15)] transition-all duration-500 transform hover:-translate-y-2 rounded-sm">
+
+                            <div class="relative h-64 md:h-72 overflow-hidden bg-[#050505] p-6">
+                                <img src="@(string.IsNullOrEmpty(item.ImagenUrl) ? "https://via.placeholder.com/400x400/222/555?text=Sin+Imagen" : item.ImagenUrl)"
+                                     alt="@item.Nombre"
+                                     class="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 @(!tieneStock ? "grayscale opacity-40" : "")">
+
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#151515] via-transparent to-transparent opacity-80"></div>
+
+                                @if (!tieneStock)
+                                {
+                                    <div class="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-[2px] z-20">
+                                        <div class="border-2 border-red-600 text-red-600 font-black uppercase tracking-[0.2em] px-4 py-2 rotate-12 text-lg shadow-2xl bg-black">
+                                            Agotado
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="absolute top-3 right-3 z-20">
+                                        <span class="bg-gold-500 text-black text-[9px] font-black px-2 py-1 uppercase tracking-widest shadow-lg rounded-sm">
+                                            Nuevo
+                                        </span>
+                                    </div>
+                                }
+                            </div>
+
+                            <div class="p-6 md:p-8 flex-grow flex flex-col relative z-10 border-t border-white/5 -mt-2">
+                                <div class="mb-4 text-center md:text-left">
+                                    <span class="text-rust-500 text-[9px] font-black uppercase tracking-[0.2em] block mb-2">
+                                        @item.Categoria?.NombreTipo
+                                    </span>
+                                    <h3 class="text-xl md:text-2xl font-slab font-black text-white leading-tight group-hover:text-gold-500 transition-colors">
+                                        @item.Nombre
+                                    </h3>
+                                </div>
+
+                                <div class="w-full h-px bg-white/10 mb-4"></div>
+
+                                <div class="mt-auto">
+                                    <div class="flex items-end justify-between mb-4 md:mb-6">
+                                        <div class="flex flex-col">
+                                            <span class="text-gray-500 text-[9px] uppercase tracking-wider font-bold">Precio</span>
+                                            <div class="flex items-baseline gap-1">
+                                                <span class="text-2xl md:text-3xl font-black text-gold-400 font-slab">@item.Precio_final.ToString("0")</span>
+                                                <span class="text-xs text-gray-400 font-bold">Bs</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @if (tieneStock)
+                                    {
+                                        <a asp-controller="Tienda" asp-action="Details" asp-route-id="@item.IdProducto"
+                                           class="w-full flex items-center justify-center gap-2 bg-rust-600 hover:bg-gold-500 text-white hover:text-black font-bold uppercase tracking-[0.15em] text-xs py-3 md:py-4 transition-all duration-300 shadow-lg group-hover:shadow-gold-500/20 rounded-sm">
+                                            Ver Detalles <span class="text-base">→</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <button disabled class="w-full bg-gray-800 border border-gray-700 text-gray-500 font-bold uppercase tracking-[0.15em] text-xs py-3 md:py-4 cursor-not-allowed rounded-sm">
+                                            Sin Stock
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-span-full text-center text-gray-500 py-10">Cargando productos...</div>
+                }
+            </div>
+
+            <div class="text-center mt-12 md:mt-20">
+                <a asp-controller="Tienda" asp-action="Index" class="inline-block px-8 py-3 md:px-12 md:py-4 border border-rust-500 text-rust-500 hover:bg-rust-500 hover:text-white font-black font-slab uppercase tracking-[0.2em] text-xs md:text-sm transition-all duration-300 hover:scale-105">
+                    Ver Catálogo Completo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 md:py-32 bg-[#e8e4d9] text-charcoal-900 relative">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] opacity-60"></div>
+
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
+
+            <div class="order-1">
+                <span class="text-rust-600 font-bold uppercase tracking-[0.3em] text-xs mb-3 block">Legado Familiar</span>
+                <h2 class="text-4xl md:text-7xl font-black font-slab mb-6 leading-[0.9]">
+                    EL ARTE DE LA <br /><span class="text-gold-600">PACIENCIA</span>
+                </h2>
+                <div class="w-16 h-1 bg-rust-600 mb-6"></div>
+                <p class="text-base md:text-xl leading-relaxed mb-8 text-gray-700 font-serif font-medium">
+                    En <span class="font-bold text-rust-800">Embutidos El Tío</span>, el tiempo es nuestro ingrediente secreto. Respetamos los ciclos naturales para obtener un sabor inigualable que honra las recetas de nuestros abuelos.
+                </p>
+
+                <div class="grid grid-cols-3 gap-4 md:gap-8 pt-8 border-t border-gray-300">
+                    <div class="text-center group cursor-default">
+                        <div class="w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 flex items-center justify-center rounded-full bg-white border-2 border-rust-600 text-rust-600 group-hover:bg-rust-600 group-hover:text-white transition-all shadow-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" /></svg>
+                        </div>
+                        <h4 class="font-black uppercase text-[10px] md:text-xs tracking-widest">Selección</h4>
+                    </div>
+                    <div class="text-center group cursor-default">
+                        <div class="w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 flex items-center justify-center rounded-full bg-white border-2 border-rust-600 text-rust-600 group-hover:bg-rust-600 group-hover:text-white transition-all shadow-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.047 8.287 8.287 0 009 9.601a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.468 5.99 5.99 0 00-1.925 3.547 5.975 5.975 0 01-2.133-1.001A3.75 3.75 0 0012 18z" /></svg>
+                        </div>
+                        <h4 class="font-black uppercase text-[10px] md:text-xs tracking-widest">Ahumado</h4>
+                    </div>
+                    <div class="text-center group cursor-default">
+                        <div class="w-12 h-12 md:w-16 md:h-16 mx-auto mb-3 flex items-center justify-center rounded-full bg-white border-2 border-rust-600 text-rust-600 group-hover:bg-rust-600 group-hover:text-white transition-all shadow-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-8 md:h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h4 class="font-black uppercase text-[10px] md:text-xs tracking-widest">Tiempo</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative h-[300px] md:h-[500px] lg:h-[600px] order-2 lg:order-2 mt-8 lg:mt-0">
+                <div class="absolute top-0 right-0 w-4/5 h-4/5 z-10 shadow-2xl transform rotate-2">
+                    <img src="https://images.unsplash.com/photo-1558030006-479063696f51?q=80&w=800" class="w-full h-full object-cover border-[6px] md:border-[10px] border-white rounded-sm" alt="Proceso de curado">
+                </div>
+                <div class="absolute bottom-0 left-0 w-3/5 h-3/5 z-20 shadow-2xl transform -rotate-3">
+                    <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?q=80&w=600" class="w-full h-full object-cover border-[6px] md:border-[10px] border-white grayscale hover:grayscale-0 transition-all duration-500 rounded-sm" alt="Maestro carnicero">
+                </div>
+                <div class="absolute -top-5 -right-5 w-20 h-20 md:w-40 md:h-40 bg-rust-500/10 rounded-full blur-3xl z-0"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="relative h-[400px] md:h-[600px] bg-fixed bg-cover bg-center flex items-center justify-center" style="background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1920&auto=format&fit=crop');">
+        <div class="absolute inset-0 bg-black/70"></div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl">
+            <span class="block text-gold-500 font-slab font-bold tracking-[0.3em] uppercase text-[10px] md:text-sm mb-4">Orgullo Boliviano</span>
+            <h2 class="text-4xl md:text-8xl font-black text-white uppercase mb-6 drop-shadow-2xl">
+                Cochabamba <br> <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400">En el Alma</span>
+            </h2>
+            <p class="text-sm md:text-2xl text-gray-300 font-light mb-8 md:mb-12 leading-relaxed max-w-2xl mx-auto hidden md:block">
+                Desde los valles hasta tu mesa. Recetas que no han cambiado en 40 años.
+            </p>
+            <a asp-controller="Home" asp-action="About" class="inline-block px-8 py-3 md:px-12 md:py-4 border-2 border-white text-white font-bold font-slab uppercase tracking-[0.2em] text-xs md:text-base hover:bg-white hover:text-black hover:scale-105 transition-all duration-300 rounded-sm">
+                Nuestra Historia
             </a>
-            <a asp-controller="Home" asp-action="About" class="px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-bold rounded-lg hover:bg-white/20 transition-all duration-300 text-center">
-                Conócenos
-            </a>
         </div>
-    </div>
-</div>
+    </section>
 
-<!-- Features / Quality Section -->
-<div class="py-24 bg-white relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Por Qué Elegir El Tío</h2>
-            <div class="w-24 h-1 bg-orange-500 mx-auto rounded-full"></div>
-            <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Nuestro proceso de selección es riguroso para asegurar que cada bocado sea una experiencia memorable.</p>
-        </div>
+    <section class="grid grid-cols-1 md:grid-cols-2 h-auto md:h-[500px]">
+        <a asp-controller="Tienda" asp-action="Index" class="group relative overflow-hidden flex items-center justify-center border-b md:border-b-0 md:border-r border-white/10 cursor-pointer h-[300px] md:h-auto">
+            <img src="https://images.unsplash.com/photo-1615937651199-63108151dd00?q=80&w=1920" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 filter brightness-50 group-hover:brightness-75" alt="Tienda">
+            <div class="absolute inset-0 bg-rust-900/20 group-hover:bg-rust-900/0 transition-colors"></div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <!-- Feature 1 -->
-            <div class="bg-orange-50 rounded-2xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border border-orange-100 group">
-                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-6 shadow-md group-hover:scale-110 transition-transform text-orange-600">
-                    🥩
-                </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Nuestras Carnes</h3>
-                <p class="text-gray-600">
-                    Son de gran valor, traídas de las vacas más finas seleccionadas en pastizales premium. Garantizamos frescura y textura perfecta en cada corte.
-                </p>
+            <div class="relative z-10 text-center px-4">
+                <h3 class="text-4xl md:text-6xl font-black text-white uppercase mb-3 translate-y-2 group-hover:translate-y-0 transition-transform">Ir a Tienda</h3>
+                <span class="text-gold-500 uppercase tracking-[0.2em] font-bold text-xs md:text-sm border-b-2 border-gold-500 pb-1 opacity-80 group-hover:opacity-100">Comprar Ahora</span>
             </div>
-
-            <!-- Feature 2 -->
-            <div class="bg-orange-50 rounded-2xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border border-orange-100 group">
-                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-6 shadow-md group-hover:scale-110 transition-transform text-orange-600">
-                    🌿
-                </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Ingredientes Naturales</h3>
-                <p class="text-gray-600">
-                    Sin conservantes artificiales dañinos. Utilizamos especias naturales y métodos de curado tradicionales para un sabor honesto y saludable.
-                </p>
-            </div>
-
-            <!-- Feature 3 -->
-            <div class="bg-orange-50 rounded-2xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border border-orange-100 group">
-                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-3xl mb-6 shadow-md group-hover:scale-110 transition-transform text-orange-600">
-                    👨‍🍳
-                </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3">Receta Tradicional</h3>
-                <p class="text-gray-600">
-                    Mantenemos viva la receta del "Tío", transmitida por generaciones, asegurando ese toque casero que tanto te gusta.
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- CTA / Promo Section -->
-<div class="py-20 relative bg-fixed bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
-    <div class="absolute inset-0 bg-black/70"></div>
-    <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
-        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">¿Listo para probar la diferencia?</h2>
-        <p class="text-xl text-gray-300 mb-10">
-            Haz tu pedido hoy y recibe los mejores embutidos directamente en la puerta de tu casa.
-        </p>
-        <a asp-controller="Tienda" asp-action="Index" class="inline-block px-10 py-4 bg-orange-600 text-white font-bold rounded-full hover:bg-orange-500 hover:shadow-lg hover:scale-105 transition-all duration-300">
-            Ir a la Tienda
         </a>
-    </div>
+
+        <a asp-controller="Noticias" asp-action="Index" class="group relative overflow-hidden flex items-center justify-center cursor-pointer h-[300px] md:h-auto">
+            <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1920" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 filter brightness-50 group-hover:brightness-75" alt="Noticias">
+            <div class="relative z-10 text-center px-4">
+                <h3 class="text-4xl md:text-6xl font-black text-white uppercase mb-3 translate-y-2 group-hover:translate-y-0 transition-transform">Noticias</h3>
+                <span class="text-white uppercase tracking-[0.2em] font-bold text-xs md:text-sm border-b-2 border-white pb-1 opacity-80 group-hover:opacity-100">Leer Novedades</span>
+            </div>
+        </a>
+    </section>
+
 </div>
+
+<style>
+    @@keyframes kenburns {
+        0% {
+            transform: scale(1);
+        }
+
+        100% {
+            transform: scale(1.15);
+        }
+    }
+
+    @@keyframes kenburns-reverse {
+        0% {
+            transform: scale(1.15);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .animate-kenburns {
+        animation: kenburns 20s ease-out infinite alternate;
+    }
+
+    .animate-kenburns-reverse {
+        animation: kenburns-reverse 20s ease-out infinite alternate;
+    }
+
+    @@keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-slide-in {
+        animation: slideIn 1s ease-out forwards;
+        animation-delay: 0.3s;
+    }
+
+    .animate-slide-in-right {
+        animation: slideIn 1s ease-out forwards;
+        animation-delay: 0.3s;
+    }
+
+    .animate-slide-in-up {
+        animation: slideIn 1s ease-out forwards;
+        animation-delay: 0.3s;
+    }
+
+    @@keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    .animate-scroll {
+        animation: scroll 40s linear infinite;
+    }
+
+    .font-slab {
+        font-family: 'Roboto Slab', serif;
+    }
+    /* Asegúrate de importar esta fuente o similar en tu _Layout */
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const track = document.getElementById('carousel-track');
+        const slides = track.children;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const indicators = document.querySelectorAll('.indicator');
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+        let autoPlayInterval;
+
+        function updateCarousel() {
+            const width = slides[0].getBoundingClientRect().width;
+            track.style.transform = 'translateX(-' + (width * currentIndex) + 'px)';
+            indicators.forEach((ind, index) => {
+                ind.setAttribute('data-active', index === currentIndex);
+                if (index === currentIndex) {
+                    ind.classList.add('bg-gold-500', 'w-12', 'md:w-20', 'opacity-100');
+                    ind.classList.remove('bg-white/40', 'w-8', 'md:w-12');
+                } else {
+                    ind.classList.remove('bg-gold-500', 'w-12', 'md:w-20', 'opacity-100');
+                    ind.classList.add('bg-white/40', 'w-8', 'md:w-12');
+                }
+            });
+        }
+
+        function nextSlide() { currentIndex = (currentIndex + 1) % totalSlides; updateCarousel(); }
+        function prevSlide() { currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; updateCarousel(); }
+
+        if(nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
+        if(prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
+
+        window.goToSlide = function(index) { currentIndex = index; updateCarousel(); resetTimer(); }
+
+        function startTimer() { autoPlayInterval = setInterval(nextSlide, 5000); }
+        function resetTimer() { clearInterval(autoPlayInterval); startTimer(); }
+
+        window.addEventListener('resize', updateCarousel);
+        startTimer();
+        updateCarousel();
+    });
+</script>

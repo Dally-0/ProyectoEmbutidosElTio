@@ -16,6 +16,9 @@ namespace ProyectoFinalEmbutidosElTio.Models.PayPal
     {
         [JsonPropertyName("amount")]
         public Amount Amount { get; set; } = new Amount();
+
+        [JsonPropertyName("payments")]
+        public Payments Payments { get; set; } = new Payments();
     }
 
     public class Amount
@@ -25,6 +28,18 @@ namespace ProyectoFinalEmbutidosElTio.Models.PayPal
 
         [JsonPropertyName("value")]
         public string Value { get; set; } = string.Empty;
+    }
+
+    public class Payments
+    {
+        [JsonPropertyName("captures")]
+        public List<Capture> Captures { get; set; } = new List<Capture>();
+    }
+
+    public class Capture
+    {
+        [JsonPropertyName("amount")]
+        public Amount Amount { get; set; } = new Amount();
     }
 
     // Response Models
@@ -38,6 +53,9 @@ namespace ProyectoFinalEmbutidosElTio.Models.PayPal
 
         [JsonPropertyName("links")]
         public List<Link> Links { get; set; } = new List<Link>();
+
+        [JsonPropertyName("purchase_units")]
+        public List<PurchaseUnitRequest> PurchaseUnits { get; set; } = new List<PurchaseUnitRequest>();
     }
 
     public class Link

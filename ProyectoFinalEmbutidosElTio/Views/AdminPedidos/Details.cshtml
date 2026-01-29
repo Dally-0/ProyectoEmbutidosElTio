@@ -39,7 +39,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach (var detalle in Model.DetallesPedido)
+                        @foreach (var detalle in Model.DetallesPedido ?? Enumerable.Empty<ProyectoFinalEmbutidosElTio.Models.DetallePedido>())
                         {
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">@detalle.Producto?.Nombre</td>

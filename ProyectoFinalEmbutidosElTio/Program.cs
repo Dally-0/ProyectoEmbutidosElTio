@@ -28,6 +28,7 @@ builder.Services.AddAuthentication(Microsoft.AspNetCore.Authentication.Cookies.C
 
 
 builder.Services.AddScoped<ProyectoFinalEmbutidosElTio.Services.PayPalService>();
+builder.Services.AddScoped<ProyectoFinalEmbutidosElTio.Services.StripeService>();
 
 var app = builder.Build();
 

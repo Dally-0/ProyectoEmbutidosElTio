@@ -58,6 +58,18 @@
                                     PP
                                 </div>
                             </label>
+
+                             <!-- Stripe Option -->
+                            <label class="relative flex p-5 border border-gray-200 rounded-xl cursor-pointer focus:outline-none hover:bg-orange-50 hover:border-orange-200 transition-all group">
+                                <input type="radio" name="paymentMethod" value="Stripe" class="h-4 w-4 mt-0.5 border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                <div class="ml-3 flex flex-col">
+                                    <span class="block text-sm font-medium text-gray-900 group-hover:text-indigo-700">Tarjeta (Stripe)</span>
+                                    <span class="block text-sm text-gray-500">Paga seguro con tarjeta de crédito/débito.</span>
+                                </div>
+                                <div class="ml-auto flex items-center text-indigo-500 font-bold">
+                                    💳
+                                </div>
+                            </label>
                         </div>
                     </form>
                 </div>
@@ -105,6 +117,11 @@
 
                     <!-- PayPal Button Container (Hidden by default) -->
                     <div id="paypal-button-container" class="mt-8 hidden"></div>
+
+                    <!-- Stripe Button (Hidden by default) -->
+                    <button id="stripe-button" class="hidden w-full mt-8 bg-indigo-600 border border-transparent rounded-xl shadow-lg py-4 px-4 font-bold text-white hover:bg-indigo-700 hover:shadow-indigo-500/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-indigo-500 transition-all">
+                        Pagar con Tarjeta (Stripe)
+                    </button>
                     
                     <p class="mt-4 text-center text-xs text-gray-500">
                         Al confirmar, aceptas nuestros términos de servicio.
@@ -117,23 +134,62 @@
 </div>
 @section Scripts {
     <script src="https://www.paypal.com/sdk/js?client-id=@ViewBag.PayPalClientId&currency=USD"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
+        const stripe = Stripe('@ViewBag.StripePublicKey');
         const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
         const defaultActions = document.getElementById('defaultActions');
         const paypalContainer = document.getElementById('paypal-button-container');
+        const stripeButton = document.getElementById('stripe-button');
 
+        // Toggle Payment Options
         paymentRadios.forEach(radio => {
             radio.addEventListener('change', (e) => {
+                // Reset All
+                defaultActions.classList.add('hidden');
+                paypalContainer.classList.add('hidden');
+                stripeButton.classList.add('hidden');
+
                 if (e.target.value === 'Paypal') {
-                    defaultActions.classList.add('hidden');
                     paypalContainer.classList.remove('hidden');
+                } else if (e.target.value === 'Stripe') {
+                    stripeButton.classList.remove('hidden');
                 } else {
                     defaultActions.classList.remove('hidden');
-                    paypalContainer.classList.add('hidden');
                 }
             });
         });
 
+        // Stripe Payment Handler
+        stripeButton.addEventListener('click', function () {
+            fetch('/Carrito/CreateStripeSession', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(function (response) {
+                if (!response.ok) {
+                     return response.json().then(err => { throw new Error(err.error || "Error " + response.status); });
+                }
+                return response.json();
+            })
+            .then(function (session) {
+                return stripe.redirectToCheckout({ sessionId: session.sessionId });
+            })
+            .then(function (result) {
+                if (result && result.error) {
+                    alert(result.error.message);
+                }
+            })
+            .catch(function (error) {
+                console.error('Error detallado:', error);
+                alert('Error al conectar con Stripe: ' + error.message);
+            });
+        });
+
+        // PayPal Payment Handler
         paypal.Buttons({
             createOrder: function(data, actions) {
                 return fetch('/Carrito/CreatePayPalOrder', {

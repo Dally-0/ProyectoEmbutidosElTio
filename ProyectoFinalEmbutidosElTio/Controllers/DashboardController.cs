@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinalEmbutidosElTio.Data;
+using ProyectoFinalEmbutidosElTio.Models;
 using ProyectoFinalEmbutidosElTio.Models.ViewModels;
 
 namespace ProyectoFinalEmbutidosElTio.Controllers
@@ -59,16 +60,31 @@ namespace ProyectoFinalEmbutidosElTio.Controllers
                 });
             }
 
-            // 2. Obtener otros pedidos que NO tienen pago PayPal (asumimos efectivo/transferencia si el estado es Pagado/Enviado/Entregado)
-            // Esto es una simplificación. Idealmente tendríamos una tabla de pagos unificada.
-            // Para este ejemplo, tomamos pedidos con estado "Pagado" (id 2), "Enviado" (3), "Entregado" (4)
-            // que NO estén en la tabla de pagos paypal.
-            
-            // 2. Obtener otros pedidos que NO tienen pago PayPal
-            // Para evitar problemas de compatibilidad SQL (OPENJSON) con listas grandes en Contains, 
-            // traemos los candidatos y filtramos en memoria (adecuado para volumen de datos de este proyecto).
-            
-            var pedidosIdsEnPaypal = pagosPaypal.Select(p => p.IdPedido).ToHashSet(); // HashSet para búsqueda rápida
+            // 2. Obtener pagos de Stripe
+            var pagosStripe = await _context.PagosStripe
+                .Include(p => p.Pedido)
+                .ThenInclude(p => p.Usuario)
+                .ToListAsync();
+
+            foreach (var p in pagosStripe)
+            {
+                pagosList.Add(new PagoItem
+                {
+                    IdPedido = p.IdPedido,
+                    Cliente = p.Pedido?.Usuario != null ? $"{p.Pedido.Usuario.Nombre} {p.Pedido.Usuario.ApPaterno}" : "Desconocido",
+                    Fecha = p.FechaPago ?? DateTime.MinValue,
+                    Monto = p.MontoPagado, // Assuming MontoPagado exists in PagoStripe
+                    MetodoPago = "Stripe",
+                    Estado = p.EstadoPago ?? "Desconocido",
+                    Referencia = p.IdTransaccionStripe
+                });
+            }
+
+            // 3. Obtener otros pedidos (Efectivo/Transferencia)
+            // Excluir los que ya están en PayPal o Stripe
+            var pedidosIdsPagados = pagosPaypal.Select(p => p.IdPedido)
+                .Union(pagosStripe.Select(s => s.IdPedido))
+                .ToHashSet();
 
             var pedidosCandidatos = await _context.Pedidos
                 .Include(p => p.Usuario)
@@ -77,7 +93,7 @@ namespace ProyectoFinalEmbutidosElTio.Controllers
                 .ToListAsync();
 
             var pedidosOtros = pedidosCandidatos
-                .Where(p => !pedidosIdsEnPaypal.Contains(p.IdPedido))
+                .Where(p => !pedidosIdsPagados.Contains(p.IdPedido))
                 .ToList();
 
             foreach (var p in pedidosOtros)
@@ -98,6 +114,10 @@ namespace ProyectoFinalEmbutidosElTio.Controllers
             if (filtro == "paypal")
             {
                 pagosList = pagosList.Where(p => p.MetodoPago == "PayPal").ToList();
+            }
+            else if (filtro == "stripe")
+            {
+                pagosList = pagosList.Where(p => p.MetodoPago == "Stripe").ToList();
             }
             else if (filtro == "otros")
             {
@@ -120,7 +140,7 @@ namespace ProyectoFinalEmbutidosElTio.Controllers
                     .Where(d => d.IdPedido.HasValue && pedidoIds.Contains(d.IdPedido.Value))
                     .ToListAsync();
 
-                totalCostoProduccion = detalles.Sum(d => d.Cantidad * d.Producto.PrecioProduccion);
+                totalCostoProduccion = detalles.Sum(d => d.Cantidad * (d.Producto?.PrecioProduccion ?? 0));
             }
 
             var viewModel = new PagosViewModel
@@ -132,6 +152,47 @@ namespace ProyectoFinalEmbutidosElTio.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> Inventario(string filtro = "todos")
+        {
+            var query = _context.Productos
+                .Include(p => p.Categoria)
+                .AsQueryable();
+
+            ViewData["FiltroActual"] = filtro;
+
+            List<Producto> productos;
+
+            switch (filtro)
+            {
+                case "vencidos":
+                    // Productos ya vencidos
+                    query = query.Where(p => p.FechaVencimiento < DateTime.Now);
+                    productos = await query.OrderBy(p => p.FechaVencimiento).ToListAsync();
+                    break;
+                case "por_vencer":
+                     // Vencen en los próximos 30 días
+                    var limitDate = DateTime.Now.AddDays(30);
+                    query = query.Where(p => p.FechaVencimiento >= DateTime.Now && p.FechaVencimiento <= limitDate);
+                    productos = await query.OrderBy(p => p.FechaVencimiento).ToListAsync();
+                    break;
+                case "stock_bajo":
+                    // Stock menor o igual al mínimo (default 10)
+                    query = query.Where(p => p.Stock <= (p.StockMinimo ?? 10));
+                    productos = await query.OrderBy(p => p.Stock).ToListAsync();
+                    break;
+                case "stock_alto":
+                    // Sort quantity High to Low
+                    productos = await query.OrderByDescending(p => p.Stock).ToListAsync();
+                    break;
+                default: // "todos" or invalid
+                     // Default: Order by Stock ascending (Menor a Mayor) as requested
+                    productos = await query.OrderBy(p => p.Stock).ToListAsync();
+                    break;
+            }
+
+            return View(productos);
         }
 
         // Additional Actions for Managing Products/News could go here

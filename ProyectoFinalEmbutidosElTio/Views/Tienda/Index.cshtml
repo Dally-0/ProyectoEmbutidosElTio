@@ -1,104 +1,189 @@
 @model IEnumerable<ProyectoFinalEmbutidosElTio.Models.Producto>
+@using ProyectoFinalEmbutidosElTio.Models
 
 @{
-    ViewData["Title"] = "Nuestros Productos";
+    ViewData["Title"] = "Nuestra Bodega";
+    var categorias = ViewData["Categorias"] as IEnumerable<Categoria>;
 }
 
-<div class="bg-white">
-    <div class="container mx-auto px-4 py-8">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                <span class="block xl:inline">Embutidos</span>
-                <span class="block text-orange-600 xl:inline">El Tío</span>
+<div class="relative bg-charcoal-900 border-b-8 border-rust-600 -mt-8 overflow-hidden shadow-2xl">
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')] opacity-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-black/95 to-transparent"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between z-10">
+        <div class="animate-fade-in-down">
+            <span class="text-gold-500 font-slab font-bold tracking-[0.2em] uppercase text-sm mb-2 block">Catálogo Exclusivo</span>
+            <h1 class="text-4xl md:text-6xl font-black text-white font-slab uppercase leading-none drop-shadow-lg">
+                La <span class="text-rust-500">Despensa</span>
             </h1>
-            <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-                Calidad y sabor tradicional en cada bocado. Explora nuestra selección premium.
-            </p>
         </div>
 
-        <!-- Search & Filter Section -->
-        <div class="mb-10">
-            <!-- Search Bar -->
-            <form asp-action="Index" method="get" class="max-w-xl mx-auto mb-8">
-                <div class="relative flex items-center">
-                    <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" 
-                           placeholder="Buscar productos (ej. Chorizo, Jamón...)"
-                           class="w-full px-5 py-3 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-150 ease-in-out" />
-                    
-                    @if (ViewData["CurrentCategoria"] != null)
-                    {
-                        <input type="hidden" name="categoriaId" value="@ViewData["CurrentCategoria"]" />
-                    }
-
-                    <button type="submit" class="absolute right-2 bg-orange-600 text-white p-2 rounded-full hover:bg-orange-700 focus:outline-none transition transform hover:scale-105">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </button>
+        <div class="mt-8 md:mt-0 w-full md:w-auto animate-fade-in-up">
+            <div class="relative group">
+                <input type="text" id="searchInput" placeholder="Buscar corte o embutido..."
+                       class="bg-black/40 border-2 border-gray-600 text-parchment-100 px-6 py-3 rounded-sm w-full md:w-80 focus:outline-none focus:border-gold-500 focus:bg-black/60 font-slab transition-all placeholder-gray-500 shadow-inner">
+                <div class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <svg id="searchIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    <svg id="loadingSpinner" class="animate-spin h-5 w-5 text-gold-500 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
                 </div>
-            </form>
-
-            <!-- Categories Filter -->
-            <div class="flex flex-wrap justify-center gap-3">
-                 <a asp-action="Index" asp-route-searchString="@ViewData["CurrentFilter"]"
-                    class="px-5 py-2 rounded-full text-sm font-medium transition shadow-sm
-                    @(ViewData["CurrentCategoria"] == null ? "bg-orange-600 text-white shadow-orange-500/30" : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200")">
-                    Todos
-                 </a>
-
-                 @if (ViewData["Categorias"] is List<ProyectoFinalEmbutidosElTio.Models.Categoria> categorias)
-                 {
-                     foreach (var cat in categorias)
-                     {
-                         <a asp-action="Index" asp-route-categoriaId="@cat.IdCategoria" asp-route-searchString="@ViewData["CurrentFilter"]"
-                            class="px-5 py-2 rounded-full text-sm font-medium transition shadow-sm
-                            @(ViewData["CurrentCategoria"]?.ToString() == cat.IdCategoria.ToString() ? "bg-orange-600 text-white shadow-orange-500/30" : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200")">
-                            @cat.NombreTipo
-                         </a>
-                     }
-                 }
             </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            @foreach (var item in Model)
-            {
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 border border-gray-100">
-                    <div class="relative pb-48 overflow-hidden">
-                        <img class="absolute inset-0 h-full w-full object-cover" 
-                             src="@(string.IsNullOrEmpty(item.ImagenUrl) ? "https://via.placeholder.com/300x300?text=No+Image" : item.ImagenUrl)" 
-                             alt="@item.Nombre">
-                         @if(!item.Activo || item.Stock <= 0) {
-                             <div class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center">
-                                 <span class="text-white font-bold text-xl uppercase">Agotado</span>
-                             </div>
-                         }
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-baseline">
-                            <span class="inline-block bg-orange-100 text-orange-800 text-xs px-2 rounded-full uppercase font-semibold tracking-wide">
-                                @item.Categoria?.NombreTipo
-                            </span>
-                        </div>
-                        <h4 class="mt-2 text-xl font-bold text-gray-900 leading-tight truncate">
-                            @item.Nombre
-                        </h4>
-                        <div class="mt-1 text-gray-600 text-sm h-12 overflow-hidden">
-                            @item.Descripcion
-                        </div>
-                         <div class="mt-4 flex justify-between items-center">
-                            <span class="text-2xl font-bold text-gray-900">$@item.Precio_final</span>
-                             @if(item.Activo && item.Stock > 0) {
-                                <a asp-action="Details" asp-route-id="@item.IdProducto" class="text-white bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded shadow-md transition">
-                                    Ver Detalles
-                                </a>
-                             } else {
-                                 <button disabled class="bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed">Agotado</button>
-                             }
-                        </div>
-                    </div>
-                </div>
-            }
         </div>
     </div>
 </div>
+
+<div class="bg-charcoal-900 min-h-screen relative">
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-leather.png')] opacity-30 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-10 items-start">
+            <aside class="lg:col-span-1 space-y-8 lg:sticky lg:top-32 h-fit z-20">
+
+                <div class="bg-[#151515] p-6 rounded-sm border border-white/10 shadow-2xl">
+                    <h3 class="text-xl font-slab font-bold text-white uppercase border-b-2 border-rust-600 pb-3 mb-6 flex items-center gap-2">
+                        <span class="text-gold-500">❖</span> Categorías
+                    </h3>
+                    <ul class="space-y-1" id="categoryFilters">
+                        <li>
+                            <button onclick="filtrarCategoria(null)" id="cat-all"
+                                    class="w-full flex items-center justify-between p-2 rounded-sm group cursor-pointer text-sm font-bold uppercase tracking-wider transition-all text-gold-500 border-l-4 border-gold-500 bg-white/5">
+                                <span>Todos</span>
+                                <span class="text-[10px] bg-charcoal-800 border border-gray-700 px-2 py-0.5 rounded text-gray-400">All</span>
+                            </button>
+                        </li>
+                        @if (categorias != null)
+                        {
+                            foreach (var cat in categorias)
+                            {
+                                <li>
+                                    <button onclick="filtrarCategoria(@cat.IdCategoria)" id="cat-@cat.IdCategoria"
+                                            class="w-full flex items-center justify-between p-2 rounded-sm group cursor-pointer text-sm font-bold uppercase tracking-wider transition-all text-gray-400 hover:text-white border-l-4 border-transparent hover:bg-white/5 category-btn">
+                                        <span>@cat.NombreTipo</span>
+                                        <span class="text-rust-500 opacity-0 group-hover:opacity-100 transition-opacity">➤</span>
+                                    </button>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+
+                <div class="bg-[#151515] p-6 rounded-sm border border-white/10 shadow-2xl">
+                    <h3 class="text-xl font-slab font-bold text-white uppercase border-b-2 border-rust-600 pb-3 mb-6">Precio Máximo</h3>
+                    <div class="space-y-6">
+                        <div class="relative pt-1">
+                            <input type="range" id="priceRange" min="0" max="500" value="500" class="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-rust-500 hover:accent-gold-500 transition-all">
+                        </div>
+                        <div class="flex justify-between text-gray-400 text-xs font-mono uppercase tracking-widest">
+                            <span>0 Bs</span>
+                            <span id="priceValue" class="text-gold-500 font-bold">500 Bs</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="lg:col-span-3">
+
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-8 pb-4 border-b border-white/10">
+                    <p class="text-gray-400 font-slab text-sm mb-4 sm:mb-0 uppercase tracking-wide">
+                        Mostrando <span id="productCount" class="text-white font-bold text-lg">@Model.Count()</span> productos
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <span class="text-gray-500 text-xs uppercase font-bold tracking-wider">Ordenar:</span>
+                        <select id="sortOrder" onchange="aplicarFiltros()" class="bg-black/30 border border-gray-700 text-parchment-100 text-sm px-4 py-2 focus:border-gold-500 outline-none rounded-sm font-slab cursor-pointer hover:bg-black/50 transition-colors">
+                            <option value="relevancia">Relevancia</option>
+                            <option value="precio_asc">Precio: Menor a Mayor</option>
+                            <option value="precio_desc">Precio: Mayor a Menor</option>
+                            <option value="nombre_asc">Nombre: A-Z</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="productsContainer" class="min-h-[400px]">
+                    <partial name="_ProductosGrid" model="Model" />
+                </div>
+
+            </main>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Variables de estado
+    let currentCategory = null;
+    let searchTimeout = null;
+
+    // 1. FILTRAR POR CATEGORÍA
+    function filtrarCategoria(id) {
+        currentCategory = id;
+
+        document.querySelectorAll('#categoryFilters button').forEach(btn => {
+            btn.classList.remove('text-gold-500', 'border-gold-500', 'bg-white/5');
+            btn.classList.add('text-gray-400', 'border-transparent');
+        });
+
+        const activeBtn = id === null ? document.getElementById('cat-all') : document.getElementById('cat-' + id);
+        if(activeBtn) {
+            activeBtn.classList.remove('text-gray-400', 'border-transparent');
+            activeBtn.classList.add('text-gold-500', 'border-gold-500', 'bg-white/5');
+        }
+
+        aplicarFiltros();
+    }
+
+    // 2. FILTRAR POR PRECIO
+    const priceRange = document.getElementById('priceRange');
+    const priceValue = document.getElementById('priceValue');
+
+    priceRange.addEventListener('input', function() {
+        priceValue.textContent = this.value + ' Bs';
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(aplicarFiltros, 300);
+    });
+
+    // 3. BUSQUEDA
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keyup', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(aplicarFiltros, 500);
+    });
+
+    // 4. AJAX
+    function aplicarFiltros() {
+        document.getElementById('searchIcon').classList.add('hidden');
+        document.getElementById('loadingSpinner').classList.remove('hidden');
+        document.getElementById('productsContainer').style.opacity = '0.5';
+
+        const busqueda = searchInput.value;
+        const precio = priceRange.value;
+        const orden = document.getElementById('sortOrder').value;
+
+        const url = `/Tienda/FiltrarProductos?busqueda=${encodeURIComponent(busqueda)}&categoriaId=${currentCategory || ''}&precioMax=${precio}&orden=${orden}`;
+
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('productsContainer').innerHTML = html;
+
+                const count = document.getElementById('totalProductosHidden').value;
+                document.getElementById('productCount').textContent = count;
+
+                document.getElementById('productsContainer').style.opacity = '1';
+                document.getElementById('searchIcon').classList.remove('hidden');
+                document.getElementById('loadingSpinner').classList.add('hidden');
+            })
+            .catch(error => {
+                console.error('Error al filtrar:', error);
+                document.getElementById('productsContainer').style.opacity = '1';
+            });
+    }
+
+    function limpiarFiltros() {
+        searchInput.value = '';
+        priceRange.value = 500;
+        priceValue.textContent = '500 Bs';
+        document.getElementById('sortOrder').value = 'relevancia';
+        filtrarCategoria(null);
+    }
+</script>

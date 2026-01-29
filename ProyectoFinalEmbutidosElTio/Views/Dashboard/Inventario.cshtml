@@ -1,0 +1,158 @@
+@model IEnumerable<ProyectoFinalEmbutidosElTio.Models.Producto>
+
+@{
+    ViewData["Title"] = "Inventario";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var filtroActual = ViewData["FiltroActual"] as string ?? "todos";
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+        <h1 class="text-3xl font-bold text-gray-800">Inventario y Stock</h1>
+        
+        <div class="flex flex-wrap gap-2">
+            <a asp-action="Inventario" asp-route-filtro="todos" 
+               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors @(filtroActual == "todos" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
+                Todos (Menor Stock)
+            </a>
+             <a asp-action="Inventario" asp-route-filtro="stock_alto" 
+               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors @(filtroActual == "stock_alto" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
+                Mayor Stock
+            </a>
+            <a asp-action="Inventario" asp-route-filtro="stock_bajo" 
+               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors @(filtroActual == "stock_bajo" ? "bg-yellow-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
+                Stock Bajo / Mínimo
+            </a>
+            <a asp-action="Inventario" asp-route-filtro="por_vencer" 
+               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors @(filtroActual == "por_vencer" ? "bg-orange-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
+                Por Vencer (30 días)
+            </a>
+            <a asp-action="Inventario" asp-route-filtro="vencidos" 
+               class="px-4 py-2 rounded-lg text-sm font-medium transition-colors @(filtroActual == "vencidos" ? "bg-red-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300")">
+                Vencidos
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full leading-normal">
+                <thead>
+                    <tr>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Producto
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Categoría
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Stock Actual
+                        </th>
+                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Stock Mínimo
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Vencimiento
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Estado
+                        </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            var stockMinimo = item.StockMinimo ?? 10;
+                            var isLowStock = item.Stock <= stockMinimo;
+                            var isExpired = item.FechaVencimiento.HasValue && item.FechaVencimiento < DateTime.Now;
+                            var isExpiringSoon = !isExpired && item.FechaVencimiento.HasValue && item.FechaVencimiento <= DateTime.Now.AddDays(30);
+
+                            <tr>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <div class="flex items-center">
+                                        @if (!string.IsNullOrEmpty(item.ImagenUrl))
+                                        {
+                                            <div class="flex-shrink-0 w-10 h-10">
+                                                <img class="w-full h-full rounded-full object-cover" src="@item.ImagenUrl" alt="" />
+                                            </div>
+                                        }
+                                        <div class="ml-3">
+                                            <p class="text-gray-900 whitespace-no-wrap font-semibold">
+                                                @item.Nombre
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <span class="text-gray-900 whitespace-no-wrap px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-50 text-blue-800">
+                                        @(item.Categoria?.NombreTipo ?? "-")
+                                    </span>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                    <span class="text-base font-bold @(isLowStock ? "text-red-600" : "text-gray-900")">
+                                        @item.Stock
+                                    </span>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                                    <span class="text-gray-500">
+                                        @stockMinimo
+                                    </span>
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p class="text-gray-900 whitespace-no-wrap">
+                                        @(item.FechaVencimiento.HasValue ? item.FechaVencimiento.Value.ToString("dd/MM/yyyy") : "-")
+                                    </p>
+                                    @if(isExpiringSoon) {
+                                         <p class="text-xs text-orange-600 font-semibold">Vence pronto</p>
+                                    }
+                                </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    @if (isExpired)
+                                    {
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                            Vencido
+                                        </span>
+                                    }
+                                    else if (isLowStock)
+                                    {
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Stock Bajo
+                                        </span>
+                                    }
+                                    else if (isExpiringSoon)
+                                    {
+                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">
+                                            Por Vencer
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            OK
+                                        </span>
+                                    }
+                                </td>
+                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                                    <a asp-controller="AdminProductos" asp-action="Edit" asp-route-id="@item.IdProducto" class="text-indigo-600 hover:text-indigo-900 font-semibold">Editar</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center text-gray-500">
+                                No se encontraron productos.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

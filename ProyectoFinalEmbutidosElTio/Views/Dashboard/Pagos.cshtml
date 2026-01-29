@@ -74,6 +74,9 @@
                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                             Estado
                         </th>
+                        <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Detalles
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -114,13 +117,19 @@
                                         @item.Estado
                                     </span>
                                 </td>
+                                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <a asp-controller="AdminPedidos" asp-action="Details" asp-route-id="@item.IdPedido" 
+                                       class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-xs transition-colors">
+                                        Detalles
+                                    </a>
+                                </td>
                             </tr>
                         }
                     }
                     else
                     {
                         <tr>
-                            <td colspan="7" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                            <td colspan="8" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
                                 No se encontraron pagos registrados para este filtro.
                             </td>
                         </tr>

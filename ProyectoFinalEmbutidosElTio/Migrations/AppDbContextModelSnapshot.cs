@@ -156,6 +156,91 @@ namespace ProyectoFinalEmbutidosElTio.Migrations
                     b.ToTable("Noticias");
                 });
 
+            modelBuilder.Entity("ProyectoFinalEmbutidosElTio.Models.PagoPaypal", b =>
+                {
+                    b.Property<int>("IdPago")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id_pago");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPago"));
+
+                    b.Property<string>("EstadoPago")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("estado_pago");
+
+                    b.Property<DateTime?>("FechaPago")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("fecha_pago");
+
+                    b.Property<int>("IdPedido")
+                        .HasColumnType("int")
+                        .HasColumnName("id_pedido");
+
+                    b.Property<string>("IdTransaccionPaypal")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("id_transaccion_paypal");
+
+                    b.Property<decimal>("MontoPagado")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("monto_pagado");
+
+                    b.HasKey("IdPago");
+
+                    b.HasIndex("IdPedido");
+
+                    b.ToTable("Pagos_Paypal");
+                });
+
+            modelBuilder.Entity("ProyectoFinalEmbutidosElTio.Models.PagoStripe", b =>
+                {
+                    b.Property<int>("IdPago")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id_pago");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPago"));
+
+                    b.Property<string>("EstadoPago")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("estado_pago");
+
+                    b.Property<DateTime?>("FechaPago")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("fecha_pago");
+
+                    b.Property<int>("IdPedido")
+                        .HasColumnType("int")
+                        .HasColumnName("id_pedido");
+
+                    b.Property<string>("IdSesionStripe")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("id_sesion_stripe");
+
+                    b.Property<string>("IdTransaccionStripe")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("id_transaccion_stripe");
+
+                    b.Property<decimal>("MontoPagado")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("monto_pagado");
+
+                    b.HasKey("IdPago");
+
+                    b.HasIndex("IdPedido");
+
+                    b.ToTable("Pagos_Stripe");
+                });
+
             modelBuilder.Entity("ProyectoFinalEmbutidosElTio.Models.Pedido", b =>
                 {
                     b.Property<int>("IdPedido")
@@ -231,10 +316,15 @@ namespace ProyectoFinalEmbutidosElTio.Migrations
                         .HasColumnType("nvarchar(150)")
                         .HasColumnName("nombre");
 
-                    b.Property<decimal>("Precio")
+                    b.Property<decimal>("PrecioProduccion")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)")
-                        .HasColumnName("precio");
+                        .HasColumnName("precio_produccion");
+
+                    b.Property<decimal>("Precio_final")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("precio_final");
 
                     b.Property<int>("Stock")
                         .HasColumnType("int")
@@ -363,6 +453,28 @@ namespace ProyectoFinalEmbutidosElTio.Migrations
                         .HasForeignKey("IdUsuarioAdmin");
 
                     b.Navigation("UsuarioAdmin");
+                });
+
+            modelBuilder.Entity("ProyectoFinalEmbutidosElTio.Models.PagoPaypal", b =>
+                {
+                    b.HasOne("ProyectoFinalEmbutidosElTio.Models.Pedido", "Pedido")
+                        .WithMany()
+                        .HasForeignKey("IdPedido")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pedido");
+                });
+
+            modelBuilder.Entity("ProyectoFinalEmbutidosElTio.Models.PagoStripe", b =>
+                {
+                    b.HasOne("ProyectoFinalEmbutidosElTio.Models.Pedido", "Pedido")
+                        .WithMany()
+                        .HasForeignKey("IdPedido")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pedido");
                 });
 
             modelBuilder.Entity("ProyectoFinalEmbutidosElTio.Models.Pedido", b =>

@@ -50,11 +50,11 @@
                         <p class="text-gray-900 whitespace-no-wrap">@Html.DisplayFor(modelItem => item.Correo)</p>
                     </td>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">@Html.DisplayFor(modelItem => item.Rol.NombreRol)</p>
+                        <p class="text-gray-900 whitespace-no-wrap">@Html.DisplayFor(modelItem => item.Rol!.NombreRol)</p>
                     </td>
                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                             @Html.DisplayFor(modelItem => item.EstadoUsuario.NombreEstado)
+                             @Html.DisplayFor(modelItem => item.EstadoUsuario!.NombreEstado)
                         </span>
                     </td>
                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
