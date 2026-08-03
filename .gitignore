@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Variables de entorno — NUNCA subir al repositorio
+# Copia .env.example a .env y completa con tus claves reales
+.env
